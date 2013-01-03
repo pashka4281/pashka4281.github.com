@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://pashka4281.github.com
+url: http://localhost
 title: Snap!Japan - Japan in a Snap!
 subtitle: A 20-year resident's perspective.
 author: Your Name
@@ -89,8 +89,9 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: disc
-disqus_show_comment_count: true
+comments: true
+disqus_short_name:
+disqus_show_comment_count: false
 
 # Google Analytics
 google_analytics_tracking_id:
