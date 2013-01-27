@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://pashka4281.github.com
-title: Snap!Japan - Japan in a Snap!
-subtitle: A 20-year resident's perspective.
-author: Your Name
+title: WebJournal
+subtitle: "Useful notes about Web, Computers, Cars and other tech stuff."
+author: Paul Ser
 simple_search: http://google.com/search
 description:
 
@@ -58,7 +58,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: pashka4281
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
@@ -96,4 +96,4 @@ disqus_show_comment_count: true
 google_analytics_tracking_id:
 
 # Facebook Like
-facebook_like: false
+facebook_like: true
