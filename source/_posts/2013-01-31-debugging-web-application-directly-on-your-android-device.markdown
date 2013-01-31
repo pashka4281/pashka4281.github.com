@@ -6,7 +6,7 @@ comments: true
 categories: [Web, Chrome, Ubuntu, Development]
 ---
 
-If you take care of how would your web app look on mobile devices this will be definitely halepful. So to make it work you need to satisfy next conditions:
+If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:
 
   - Obviously, you'll need an android device you're going to test on (preferably Android 3.2 and higher)
   - Android SDK installed
