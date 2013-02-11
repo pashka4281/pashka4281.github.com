@@ -18,7 +18,7 @@ At first, download Android SDK from [official site](http://developer.android.com
 then extract it's content. I use Ubuntu and in my case SDK is located inside of 'bin' folder, 
 right under 'home' foler: `~/bin/adt-bundle-linux-x86_64/`. 
 
-When you have SDK installed, connect your mobilde device using USB cable to your desktop. 
+When you have SDK installed, connect your mobile device using USB cable to your desktop. 
 But first you need to enable USB debugging on your mobile device, both in Chrome and system settings. 
 Once you did it, you need to make sure your device is correctly detected, run "adb" tool for that: <br />
 `~$ cd ~/bin/adt-bundle-linux-x86_64/sdk/platform-tools` <br />
