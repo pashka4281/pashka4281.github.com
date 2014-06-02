@@ -3,7 +3,7 @@ layout: post
 title: "Node JS ecosystem from Rails developer perspective - part1"
 date: 2014-06-01 04:50
 comments: true
-categories: 
+categories: [NodeJs, EpressJS, Ubuntu, Web]
 ---
 
 That was a rainy night of Saturday when I was sitting down and reading some blog I found a notice about Node. Yay, now I know how to spend rest of the eve - I thought :)

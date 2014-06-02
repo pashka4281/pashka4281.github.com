@@ -35,12 +35,12 @@ function addSidebarToggler() {
       $(section).addClass(count);
     });
   }
-  if (sections.length >= 3){ $('aside.sidebar').addClass('thirds'); }
+  // if (sections.length >= 3){ $('aside.sidebar').addClass('thirds'); }
 }
 
 function testFeatures() {
   var features = ['maskImage'];
-  $(features).map(function(feature) {
+  $(features).map(function(i, feature) {
     if (Modernizr.testAllProps(feature)) {
       $('html').addClass(feature);
     } else {
@@ -76,7 +76,7 @@ function flashVideoFallback(){
   $('video').each(function(video){
     video = $(video);
     if (!Modernizr.video.h264 && swfobject.getFlashPlayerVersion() || window.location.hash.indexOf("flash-test") !== -1){
-      video.children('source[src$=mp4]').first().map(function(source){
+      video.children('source[src$=mp4]').first().map(function(i, source){
         var src = $(source).attr('src'),
             id = 'video_'+Math.round(1 + Math.random()*(100000)),
             width = video.attr('width'),
