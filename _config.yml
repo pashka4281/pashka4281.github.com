@@ -103,6 +103,8 @@ disqus_show_comment_count: true
 
 # Google Analytics
 google_analytics_tracking_id:
+google_universal_analytics_tracking_id: UA-51542431-1
+google_universal_analytics_domain: pashka4281.github.io
 
 # Facebook Like
 facebook_like: true
