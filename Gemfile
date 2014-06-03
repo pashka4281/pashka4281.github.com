@@ -13,6 +13,8 @@ group :development do
   gem 'rb-fsevent'
   gem 'stringex'
   gem 'liquid'
+  gem 'kramdown'
+  gem 'coderay'
 end
 gem 'thin'
 gem 'sinatra'
