@@ -23,6 +23,8 @@ There is one thing I was curious about for a long time: Why LinkedIn doesn't pro
 
 So what I actually wanted (and I believe not only me) is an ability to display my LinkedIn profile's recommendations on my blog without forcing it's visitors to sign in with Linked In. I digged lot's of LI documentations, API, forum, stackoverflow etc. and found that LI doesn't allow to do it. Why they do this way is a topic for another post, but now I want to present a small workaround for this problem. 
 
+<!-- more -->
+
 ### Workaround
 Ok let's get closer to action: I wrote this small js application that generates script for embedding
 recommendations from your LI profile. What it do is simply pulling your recommendations (after you sign in)
