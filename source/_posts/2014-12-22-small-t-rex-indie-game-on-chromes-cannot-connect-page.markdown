@@ -34,6 +34,7 @@ So basically I saw this page tons of times (thinking about where I'm going to bu
 
 I was looking at it when saw how small dinosaur climbed his eye. "Something not clear here " -  I thought. I know that sometimes web developers place some hidden logic on their pages (e.i. their "personal signature"/"sign") leaving small tips so only observant person could find it. So that climbing seemed to me just like those tip and I began clicking everywhere and pressing different buttons. And after pressing spacebar ...
 
+<!-- more -->
 ![img](http://gdurl.com/spbB)
 
 ... I loose about 1 hour of my life. So fulish :)
