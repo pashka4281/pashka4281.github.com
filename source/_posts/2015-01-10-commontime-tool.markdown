@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Glad to present you 'CommonTime' tool (a small free app that helps working with people from different timezones)"
+title: "Glad to present you 'CommonTime' tool (a free app that helps working with people from different timezones)"
 date: 2015-01-10 02:24
 comments: true
 categories: ["Freelancing", "Remote work", "TimeZones", "RaphaelJS", "Vector Graphics"]
-description: "'CommonTime' tool (a small free app that helps working with people from different timezones)"
+description: "'CommonTime' tool (a free app that helps working with people from different timezones)"
 keywords: Freelancing, Remote work, TimeZones, RaphaelJS, Vector Graphics, small apps, Pavlo Sirous, Web design, freelancing, remote work, vector design, vector graphics
 ---
 
