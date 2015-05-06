@@ -252,7 +252,7 @@ multitask :push do
   puts "\n## copying #{public_dir} to #{deploy_dir}"
   cp_r "#{public_dir}/.", deploy_dir
   cd "#{deploy_dir}" do
-    system "git checkout #{deploy_branch}"
+    #system "git checkout #{deploy_branch}"
     system "git add ."
     system "git add -u"
     puts "\n## Commiting: Site updated at #{Time.now.utc}"
@@ -261,7 +261,7 @@ multitask :push do
     puts "\n## Pushing generated #{deploy_dir} website"
     system "git push origin #{deploy_branch} --force"
     puts "\n## Github Pages deploy complete"
-    system "git checkout source"
+    #system "git checkout source"
   end
 end
 
