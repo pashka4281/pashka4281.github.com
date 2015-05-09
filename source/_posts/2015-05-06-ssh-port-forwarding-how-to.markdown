@@ -8,7 +8,7 @@ keywords: ssh, port forwarding, ssh port forwarding, port forwarding ssh, PAT, p
 description: "Simple tutorial that explains how to use ssh to setup port forwarding from a remote server down to your local machine"
 ---
 
-SSH port forwarding
+![img](http://gdurl.com/lIxw)
 
 I guess everyone knows how to use SSH to connect local terminal to remote server.
 Often usage of ssh is limited to this. But ssh has some other cool features that can be very helpful sometimes. One of them is port forwarding.
