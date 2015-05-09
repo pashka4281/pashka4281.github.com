@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SSH | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/ssh/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-05-08T17:40:40+03:00</updated>
+  <updated>2015-05-10T00:14:45+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Paul Ser]]></name>
@@ -18,7 +18,7 @@
     <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
     <updated>2015-05-06T14:29:00+03:00</updated>
     <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
-    <content type="html"><![CDATA[<p>SSH port forwarding</p>
+    <content type="html"><![CDATA[<p><img src="http://gdurl.com/lIxw" alt="img" /></p>
 
 <p>I guess everyone knows how to use SSH to connect local terminal to remote server.
 Often usage of ssh is limited to this. But ssh has some other cool features that can be very helpful sometimes. One of them is port forwarding.</p>
