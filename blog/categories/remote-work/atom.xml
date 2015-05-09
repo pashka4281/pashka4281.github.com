@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Remote Work | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/remote-work/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2015-05-08T17:40:40+03:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Paul Ser]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Glad to Present You 'CommonTime' Tool (a Free App That Helps Working With People From Different Timezones)]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/01/10/commontime-tool/"/>
+    <updated>2015-01-10T02:24:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/01/10/commontime-tool</id>
+    <content type="html"><![CDATA[<p>Happy to welcome you, dear visitor of my blog!</p>
+
+<p>Want to congratulate you with passed Christmas and New Year. That was a great year (a hard year for my country, but it brought more hopes and many happy moments, hope for you as well).
+During the holiday nobody worked, so I had some free time that I spent on learning new stuff (got acknowledged with Web components and Polymer.js, but that is another story that I’m definitely going to cover in later posts) and building one small application that I call “CommonTime” as well.</p>
+
+<!-- More -->
+
+<p>The short story: as a freelance developer working often with abroad clients I usually face problem with finding comfortable time to communicate for both me and the client. That brings some difficulties and usually means googling the time difference between us, calculating the number of hours, etc. After missing another meeting with the client because of misunderstanding our timezones (a call was scheduled at 4:00 am my local time:) ) I started seriously thinking about creating a simple solution for that.
+Since that is a repetitive task, it can be solved once and forever. </p>
+
+<p>What I did is took my brush, a sheet of paper and started mastering (joking, just got to my laptop and begun reading Raphael docs - but that sounds not romantic at all). What I got as an output - a small app that should help you forget about googling client’s timezone and calculating the hours difference between you.</p>
+
+<h2 id="what-is-commontime">What is CommonTime?</h2>
+<p>Here is a quote from github readme file:</p>
+
+<blockquote>
+  <p>Small tool to find common working hours in different time zones<br />
+It helps freelancers who work with clients abroad to easily find (and share) common working hours (and overlapping).
+it has simple intuitive UI built with RaphaelJS.
+How to use it:</p>
+
+  <p>1 select your timezone, then your client’s one.</p>
+
+  <p>2 specify your working hours as well as your client’s.</p>
+
+  <p>You’ll be able to see where your working hours overlaps and share it with each other 
+(by uniq link that is generated automatically)</p>
+
+  <p>Time format is an option as well (12/24 hours)</p>
+</blockquote>
+
+<p>Here is how it all looks like (yeah I took some inspirations from apps like Rubular.com and Paletton.com)
+<img src="http://gdurl.com/e7H1" alt="img" /></p>
+
+<p>A link:
+<a href="http://commontime.info">http://commontime.info</a></p>
+
+<p>Github repository:
+<a href="https://github.com/pashka4281/common_time">https://github.com/pashka4281/common_time</a></p>
+
+<p>What it basically allows to do is fill in your working hours (as well as client’s) with moving arc curves alongside two circles: your one and client one respectfully.
+After that you should select timezones for you and for client. When it is done, circles will rotate to represent each timezone’s offset compared to utc 0:00
+and you’ll get a graphically visualized intersection of working hours for you and for second person. Also you can input emails to get gravatar images associated for both people.
+The main feature is sharing - you can send a link to the second person and confirm/get updates from him accordingly.
+Sweeeet!</p>
+
+<p>This is a very pilot version, I have a bunch of ideas of how to improve it and add some new features, but I’d like to hear a feedback from you first. Drop a line in a comment box below this post.
+Please help me with your ideas! I think It can became useful for many people that has similar problems.
+Thanks!</p>
+]]></content>
+  </entry>
+  
+</feed>

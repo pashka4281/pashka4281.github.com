@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ubuntu | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2015-05-08T17:40:40+03:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Paul Ser]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Node JS Ecosystem From Rails Developer Perspective - Part1]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1/"/>
+    <updated>2014-06-01T04:50:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1</id>
+    <content type="html"><![CDATA[<p>That was a rainy night of Saturday when I was sitting down and reading some blog I found a notice about Node. Yay, now I know how to spend rest of the eve - I thought :)</p>
+
+<p>Honestly saying, some time ago I have already made “first steps” in writing server side js using node, but that was so long ago so I decided to try again and go further that first time.</p>
+
+<p>So let’s start from installing npm (node package manager - similar to gem from rails). I had it already installed but for those who just starting follow next steps (quote taken from ubuntu community).
+<!-- more --></p>
+
+<h2 id="step-1---installing-node">Step 1 - installing node</h2>
+
+<p>Those are pretty easy and not involving compiling stuff:</p>
+
+<blockquote>
+  <p>You can use this node.js PPA:</p>
+
+  <p><code>ppa:chris-lea/node.js</code></p>
+
+  <p>If you’re on Ubuntu Server, first do this:</p>
+
+  <p><code>$ sudo apt-get install python-software-properties</code></p>
+
+  <p>Then, do this:</p>
+
+  <p><code>$ sudo add-apt-repository ppa:chris-lea/node.js</code></p>
+
+  <p><code>$ sudo apt-get update</code></p>
+
+  <p><code>$ sudo apt-get install nodejs</code></p>
+
+  <p>Then, you have the latest version of node.js installed.</p>
+</blockquote>
+
+<p>Then, check if node was installed correctly:</p>
+
+<p><code>$ node -v</code></p>
+
+<h2 id="step-2---install-npm">Step 2 - Install NPM</h2>
+
+<p>Simply run the NPM install script:</p>
+
+<p>curl https://npmjs.org/install.sh | sudo sh
+And then check it works:</p>
+
+<p>npm -v
+That’s all.</p>
+
+<h2 id="step-3---creating-basic-skeleton-of-you-very-first-node-web-app">Step 3 - Creating basic skeleton of you very first Node web app</h2>
+<p>For accomplishing this step I strongly recommend to use ExpressJs - a small npm package (aka gem) that boost your node app with such nice features as routing, template handling (Jade by default –  very similar to haml) and some other useful stuff. Creating server with expressjs is also simple proccessas well as configuring it. Node app has no strict folders structure (as Rails do) but it nice to have some place to start of. There are plently much app template/seed projects available out there, let’s use on of them that contains basic blog application:</p>
+
+<p><code>https://github.com/btford/angular-express-blog</code></p>
+
+<p>(yeah-yeah you have already noticed this seed project includes AngularJS :) – we’ll get back to it a bit later )</p>
+
+<p>So:</p>
+
+<p><code>$ git clone https://github.com/btford/angular-express-blog.git &amp;&amp; cd angular-express-blog</code></p>
+
+<p>Then run</p>
+
+<p><code>$ npm install</code> to install all the app dependencies (this is similar to bundle install in rails. This command will install dependencies described in package.json file – node analog for Gemfile. You can edit it to add required libs/plugins)</p>
+
+<p>This should run smoothly and finaly we’re able to run our app!
+<code>$ node app.js</code></p>
+
+<p><code>$ Express server listening on port 3000 in development mode</code></p>
+
+<p>Now open your favourite browser and point it to http://localhost:3000</p>
+
+<p>This is what you would see, your first hand-made Node js blog. We did it :) </p>
+
+<p><img src="https://farm3.staticflickr.com/2906/14314489362_f2296fd5ab_b.jpg" alt="" /></p>
+
+<h2 id="step-4---application-structure">Step 4 - application structure</h2>
+
+<p>Basically the structure of the app skeleton we have copied looks like this:</p>
+
+<p><code>sh
+README.md
+app.js              --&gt; app config
+package.json        --&gt; for npm
+public/             --&gt; all of the files to be used in on the client side
+  css/              --&gt; css files
+    app.css         --&gt; default stylesheet
+  img/              --&gt; image files
+  js/               --&gt; javascript files
+    app.js          --&gt; declare top-level app module
+    controllers.js  --&gt; application controllers
+    directives.js   --&gt; custom angular directives
+    filters.js      --&gt; custom angular filters
+    services.js     --&gt; custom angular services
+    lib/            --&gt; angular and 3rd party JavaScript libraries
+      angular/
+        angular.js            --&gt; angular js
+        angular.min.js        --&gt; minified angular js
+        angular-*.js          --&gt; angular add-on modules
+        version.txt           --&gt; version number
+routes/
+  api.js            --&gt; route for serving JSON
+  index.js          --&gt; route for serving HTML pages and partials
+views/
+  index.jade        --&gt; main page for app
+  layout.jade       --&gt; doctype, title, head boilerplate
+  partials/         --&gt; angular view partials (partial jade templates)
+    addPost.jade
+    deletePost.jade
+    editPost.jade
+    index.jade
+    readPost.jade
+</code></p>
+
+<p>It’s pretty self-explanary, I’ll stop only for certain moments to clarify.
+The main starting point of the app is actually app.js file. it combines some <code>require</code> statements to load external libs, code for setting up express server and define some config parameters to it (e.g. templating engine, running port, routes etc.).</p>
+
+<h2 id="step-5---expressjs-routings">Step 5 - ExpressJS routings</h2>
+
+<p>Special quote for routes. They have some differences comparing to Rails’s. The app.js contains routes only constraints but their definitions are placed under ./routes folder. 
+Instead of mapping an http route to controller’s action (like rails do) express routes defines make rails controllers job as well: they define what to do with the request (e.g. redirect it) or what data should be sent for a particular request.
+Consider example:</p>
+
+<p>We requring definitions contained in ./routes/api.js file and place it to api variable
+<code>var api = require('./routes/api');</code></p>
+
+<p>Then to map <code>posts</code> definition to get request for ‘/api/posts’ path we do this:
+<code>app.get('/api/posts', api.posts);</code></p>
+
+<p>This would work since /routes/api.js contains definition named ‘posts’:</p>
+
+<p><code>sh
+exports.posts = function (req, res) {
+  var posts = [];
+  data.posts.forEach(function (post, i) {
+    posts.push({
+      id: i,
+      title: post.title,
+      text: post.text.substr(0, 50) + '...'
+    });
+  });
+  res.json({
+    posts: posts
+  });
+};
+</code></p>
+
+<p>So when client requests /api/posts via GET ‘posts’ function will be called.
+The common format of the route definition fuction is
+<code>function(req, res){ ... }</code></p>
+
+<p>Req and res objects stands for Request and Response respectively. They have plently on methods to deal with request and response, but in our case we want to render json, this goal is accomplished by calling json function on res object and passing desired json as an argument:</p>
+
+<p><code>function(req, res){ res.json({ foo: "bar" }) }</code></p>
+
+<p>This way you can easily create json API for your client side code.
+Another way of using routes - rendering templates. Example from our app you can inspecting <code>./routes/index.js</code> file.
+Similar to rendering json but using ‘render’ function on res object:</p>
+
+<p><code>sh
+function(req, res){
+  res.render('index');
+};
+</code></p>
+
+<p>It would pick up and render template ‘index.jade’ under ./views folder.</p>
+
+<h2 id="step-6---jade-templates">Step 6 - Jade templates</h2>
+<p>More detailed info about jade templating language can be found here http://jade-lang.com/
+It has similar to haml syntax so if you know how to write haml you’ll be easy to deal with jade. (Need to say, I’m sure you can find plugins for haml support as well).
+Most important notice for us as rails developers - it supports layouts, partials and other good stuff we used to work with in Rails.</p>
+
+<p>Jade layout should contain <code>block body</code> code. Thi is a place where templates will  be included:</p>
+
+<p><code>sh
+!!!
+html(ng-app="myApp")
+  head
+    meta(charset='utf8')
+    base(href='/')
+    title Angular Express Seed App
+    link(rel='stylesheet', href='http://pashka4281.github.com/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://pashka4281.github.com/css/app.css')
+  body
+    include shared/navbar
+    .container
+      block body
+</code></p>
+
+<p><code>include shared/navbar</code> will include navbar.jade partial located inside ./views/shared folder.</p>
+
+<p>BTW, if you’re using sublime2 as you text editor there is a simple tutorial of adding jade syntax highlighting to it:
+&gt; Hit Command-Shift-P to open up the Command Palette, where you can type “install package”.   Hit enter and it will open up another search box.
+&gt; Type “jade” and it should autocomplete to the Jade package.  Hit enter to install the package.
+&gt; Restart Sublime Text 2.</p>
+
+<p>That’s it for layouts. As for views, they should contain layout name which should be used for rendering:</p>
+
+<p>```sh
+extends layout</p>
+
+<p>block body
+  div.container
+    Hello!
+```</p>
+
+<p><code>extend layout</code> here says that this view should be rendered under layout named “layout” :)</p>
+
+<p>So that’s it for this post, in next posts I’ll tell you how angular works for this app, how to deal with assets using Bower, setting up database connection and even bringing some ORM functionality to you nodeJs app. Stay tuned!
+Questions are really welcome :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Web Application Directly on Your Android Device]]></title>
+    <link href="http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device/"/>
+    <updated>2013-01-31T17:17:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device</id>
+    <content type="html"><![CDATA[<p>If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:</p>
+
+<ul>
+  <li>Obviously, you’ll need an android device you’re going to test on (preferably Android 3.2 and higher)</li>
+  <li>Android SDK installed</li>
+  <li>Both desktop and mobile should run Google Chrome Browser (Chrome beta is also supported)</li>
+  <li>USB cable</li>
+</ul>
+
+<!-- more -->
+<p>At first, download Android SDK from <a href="http://developer.android.com/sdk/index.html">official site</a> 
+then extract it’s content. I use Ubuntu and in my case SDK is located inside of ‘bin’ folder, 
+right under ‘home’ foler: <code>~/bin/adt-bundle-linux-x86_64/</code>. </p>
+
+<p>When you have SDK installed, connect your mobile device using USB cable to your desktop. 
+But first you need to enable USB debugging on your mobile device, both in Chrome and system settings. 
+Once you did it, you need to make sure your device is correctly detected, run “adb” tool for that: <br />
+<code>~$ cd ~/bin/adt-bundle-linux-x86_64/sdk/platform-tools</code> <br />
+<code>~$ ./adb devices</code></p>
+
+<p>You’ll get output similar to this:</p>
+
+<blockquote>
+  <p>List of devices attached <br />
+  4df1f0377f5f8fc7    device</p>
+</blockquote>
+
+<p>So we can see device is listed correctly. Next, enable port forwarding by running this command: <br />
+<code>./adb forward tcp:9222 localabstract:chrome_devtools_remote</code></p>
+
+<p>This should yield some output, but in my case it showed nothing.
+Now it’s time for most interesting! Open Chrome both on Android device and on desktop. 
+Follow your desktop browser to this URL <code>http://localhost:9222/</code> and’re going to see the 
+list of opened tabs on your mobile device:</p>
+
+<p><img src="http://farm9.staticflickr.com/8492/8431975033_2fbe3d65fd_z.jpg" alt="img" /></p>
+
+<p>After you have choose one you’ll see usual chrome developer tools window:</p>
+
+<p><img src="http://farm9.staticflickr.com/8217/8431995941_0a6485bb3f_z.jpg" alt="img" /></p>
+
+<p>And some corresponding mobile screenshots:</p>
+
+<p><img src="http://farm9.staticflickr.com/8097/8431988489_e8190eef4f_z.jpg" alt="img" /></p>
+
+<p><img src="http://farm9.staticflickr.com/8464/8431989119_1f6748d41e_z.jpg" alt="img" /></p>
+
+<p>Now you can do everything with Chrome dev tools right on your mobile device! Yay!</p>
+
+<p><a href="https://developers.google.com/chrome-developer-tools/docs/remote-debugging">Google Original Article with more detailed instructions on how to set up connection between Desktop and mobile Chrome</a></p>
+]]></content>
+  </entry>
+  
+</feed>

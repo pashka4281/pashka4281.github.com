@@ -1,0 +1,1199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[WebJournal]]></title>
+  <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2015-05-08T17:40:40+03:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Paul Ser]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
+    <updated>2015-05-06T14:29:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
+    <content type="html"><![CDATA[<p>SSH port forwarding</p>
+
+<p>I guess everyone knows how to use SSH to connect local terminal to remote server.
+Often usage of ssh is limited to this. But ssh has some other cool features that can be very helpful sometimes. One of them is port forwarding.</p>
+
+<p>This days I often work on a development server doing some pair-programming.
+Once we neede to see what emails are going out from the rails app.
+When working locally I usually prefer to use letter_opener gem which opens a new tab in a browser with a preview of an email <a href="https://github.com/ryanb/letter_opener">https://github.com/ryanb/letter_opener</a>.
+But dev server doesn’t have any GUY so that’s we couldn’t use browser-based tools. That’s why decided to use something else, basically mailcatcher <a href="http://mailcatcher.me/">http://mailcatcher.me/</a>.
+Mailcatcher is an smtp server that provides http interface that shows all the outgoing emails. </p>
+
+<!-- More -->
+
+<p>Here’s where we’re getting closer to the post topic.
+The problem we faced is that mailcacher is running on port 1080 (sure this is configurable) which was apparently closed on the server thus making it impossible to access it’s admin panel.
+A good case for using ssh port worwarding.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ssh -L 8000:localhost:1080 your.server.com
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This command forwards a port <code>1080</code> on <code>your.server.com</code> to port <code>8000</code> on your localhost,
+so now visiting <code>http://localhost:8000</code> will show you the content of something that is located on <code>http://your.server.com:1080</code> (mailcatcher web interface in our case). Yay! Problem solved!</p>
+
+<p>I have to add that previous command will also open a regular terminal remote session to your server and if you don’t need it, you can append another parameter <code>-N</code> to make it just forward a port:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">ssh -L 8000:localhost:1080 your.server.com -N
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Actually SSH has more interesting features you may like to learn about so here is a couple of resources that gonna help with that:</p>
+
+<ul>
+  <li><code>man ssh</code> (sure, that simple)</li>
+  <li><a href="https://help.ubuntu.com/community/SSH">https://help.ubuntu.com/community/SSH</a></li>
+  <li><a href="http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward">http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rails E-tags Explained]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/"/>
+    <updated>2015-03-06T03:14:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained</id>
+    <content type="html"><![CDATA[<p>E-tag is a part of HTTP 1.1 specification and basically a mechanism that helps implement browser caching.
+E-tag stands for “entity tag”. Let’s see how it works.</p>
+
+<p>When browser loads a page for a first time, server renders page’s HTML and also creates
+MD5 checksum of it which will be send back to browser via headers together with response body. </p>
+
+<p><img src="http://gdurl.com/E_Av" alt="img" /></p>
+
+<!-- More -->
+
+<p>So this is what approximately happening on server when it generates e-tag:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">require <span class="s1">&#39;digest/md5&#39;</span>
+</span><span class="line">headers<span class="o">[</span><span class="s1">&#39;ETag&#39;</span><span class="o">]</span> <span class="o">=</span> Digest::MD5.hexdigest<span class="o">(</span>response_body<span class="o">)</span>
+</span><span class="line"><span class="c"># =&gt; &quot;398b81ab9ecb91a32fee9146fe7b1846&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, browser receives server’s response, renders it and caches somewhere on the disk locally. Also it saves received e-tag.
+<img src="http://gdurl.com/MjK5" alt="img" /></p>
+
+<p>Now we decide to visit the same page again.
+<img src="http://gdurl.com/uGYc6" alt="img" /></p>
+
+<p>Browser sends e-tag that we got before (header containing it now called “If-None-Match”
+and this is a real mystery for me why they called it this way and not simply “e-tag”).
+On server side the page got rendered again but this time not immediately sent back to client,
+but instead e-tag of it being generated and compared with one received from browser.
+If they match response body will be empty and status will be 304 Not Modified.
+Browser in his turn when got 304 status, knows that nothing has changed on the page
+since last visit thus local cached version of it can be rendered instead.</p>
+
+<p>This way we reduce network usage when there is no need to send same information twice.
+But if you were attentive while reading above, you noticed that when we hit the page second time,
+server still renders the page before deciding if there were changes.
+In Rails there is a way to manually control generating etags on the server - <code>fresh_when</code> method
+(<a href="http://apidock.com/rails/ActionController/ConditionalGet/fresh_when">apidock reference</a>).
+It can take an active record object as an argument and a set of additional parameters. 
+Fresh_when method calls <code>.cache_key()</code> on a passed object, which is usually a
+combination of class name, <code>id</code> and <code>updated_at</code> columns (e.g. “posts/5-20071224150000”).
+Having this we can now improve generating etags on the server and prevent page rendering on each request. </p>
+
+<p>Consider this code example:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">class PostsController &lt; ApplicationController
+</span><span class="line">  def show
+</span><span class="line">    @post <span class="o">=</span> Post.find params<span class="o">[</span>:id<span class="o">]</span>
+</span><span class="line">    fresh_when<span class="o">(</span>@post<span class="o">)</span>
+</span><span class="line">  end
+</span><span class="line">end
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Instead of generating etag based on whole page’s html, we would use cache_key of @post. 
+If you want to add more information etag will be generated from, you can pass an array to fresh_when method.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">fresh_when<span class="o">([</span>@post, current_user.id<span class="o">])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Or in a more declarative form:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">class PostsController &lt; ApplicationController
+</span><span class="line">  etag <span class="o">{</span> current_author.id <span class="o">}</span>
+</span><span class="line">  etag <span class="o">{</span> current_property.name <span class="o">}</span> <span class="c"># you can add even more then one</span>
+</span><span class="line">
+</span><span class="line">  def show
+</span><span class="line">    @post <span class="o">=</span> Post.find params<span class="o">[</span>:id<span class="o">]</span>
+</span><span class="line">    fresh_when<span class="o">(</span>@post<span class="o">)</span>
+</span><span class="line">  end
+</span><span class="line">end
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Glad to Present You 'CommonTime' Tool (a Free App That Helps Working With People From Different Timezones)]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/01/10/commontime-tool/"/>
+    <updated>2015-01-10T02:24:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/01/10/commontime-tool</id>
+    <content type="html"><![CDATA[<p>Happy to welcome you, dear visitor of my blog!</p>
+
+<p>Want to congratulate you with passed Christmas and New Year. That was a great year (a hard year for my country, but it brought more hopes and many happy moments, hope for you as well).
+During the holiday nobody worked, so I had some free time that I spent on learning new stuff (got acknowledged with Web components and Polymer.js, but that is another story that I’m definitely going to cover in later posts) and building one small application that I call “CommonTime” as well.</p>
+
+<!-- More -->
+
+<p>The short story: as a freelance developer working often with abroad clients I usually face problem with finding comfortable time to communicate for both me and the client. That brings some difficulties and usually means googling the time difference between us, calculating the number of hours, etc. After missing another meeting with the client because of misunderstanding our timezones (a call was scheduled at 4:00 am my local time:) ) I started seriously thinking about creating a simple solution for that.
+Since that is a repetitive task, it can be solved once and forever. </p>
+
+<p>What I did is took my brush, a sheet of paper and started mastering (joking, just got to my laptop and begun reading Raphael docs - but that sounds not romantic at all). What I got as an output - a small app that should help you forget about googling client’s timezone and calculating the hours difference between you.</p>
+
+<h2 id="what-is-commontime">What is CommonTime?</h2>
+<p>Here is a quote from github readme file:</p>
+
+<blockquote>
+  <p>Small tool to find common working hours in different time zones<br />
+It helps freelancers who work with clients abroad to easily find (and share) common working hours (and overlapping).
+it has simple intuitive UI built with RaphaelJS.
+How to use it:</p>
+
+  <p>1 select your timezone, then your client’s one.</p>
+
+  <p>2 specify your working hours as well as your client’s.</p>
+
+  <p>You’ll be able to see where your working hours overlaps and share it with each other 
+(by uniq link that is generated automatically)</p>
+
+  <p>Time format is an option as well (12/24 hours)</p>
+</blockquote>
+
+<p>Here is how it all looks like (yeah I took some inspirations from apps like Rubular.com and Paletton.com)
+<img src="http://gdurl.com/e7H1" alt="img" /></p>
+
+<p>A link:
+<a href="http://commontime.info">http://commontime.info</a></p>
+
+<p>Github repository:
+<a href="https://github.com/pashka4281/common_time">https://github.com/pashka4281/common_time</a></p>
+
+<p>What it basically allows to do is fill in your working hours (as well as client’s) with moving arc curves alongside two circles: your one and client one respectfully.
+After that you should select timezones for you and for client. When it is done, circles will rotate to represent each timezone’s offset compared to utc 0:00
+and you’ll get a graphically visualized intersection of working hours for you and for second person. Also you can input emails to get gravatar images associated for both people.
+The main feature is sharing - you can send a link to the second person and confirm/get updates from him accordingly.
+Sweeeet!</p>
+
+<p>This is a very pilot version, I have a bunch of ideas of how to improve it and add some new features, but I’d like to hear a feedback from you first. Drop a line in a comment box below this post.
+Please help me with your ideas! I think It can became useful for many people that has similar problems.
+Thanks!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Small T-rex Indie Game on Chrome's 'Cannot Connect Page']]></title>
+    <link href="http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page/"/>
+    <updated>2014-12-22T17:52:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page</id>
+    <content type="html"><![CDATA[<script src="http://pashka4281.github.com/javascripts/posts_specific/t-rex-dino-chrome-game.js"></script>
+
+<style>
+  body.no-scroll{ overflow-y: hidden; }
+  .t-rex-container {
+    box-sizing: border-box;
+    font-size: 1em;
+    line-height: 1.6em;
+    margin: 100px auto 0;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  #offline-resources { display: none; }
+  #wrapper{ height: 300px; border: 1px dashed;}
+</style>
+
+<p>Several past days my internet connection was not stable due to unstable voltage, which my adsl modem doesn’t like at all. Unfortunately, unstable connection usually means for me soon death of my modem :( That’s sad of course, but I wanted to write about different thing. </p>
+
+<p>So basically I saw this page tons of times (thinking about where I’m going to buy another modem)</p>
+
+<p><img src="http://gdurl.com/4cbP" alt="img" /></p>
+
+<p>I was looking at it when saw how small dinosaur climbed his eye. “Something not clear here “ -  I thought. I know that sometimes web developers place some hidden logic on their pages (e.i. their “personal signature”/”sign”) leaving small tips so only observant person could find it. So that climbing seemed to me just like those tip and I began clicking everywhere and pressing different buttons. And after pressing spacebar …</p>
+
+<!-- more -->
+<p><img src="http://gdurl.com/spbB" alt="img" /></p>
+
+<p>… I loose about 1 hour of my life. So fulish :)
+But the game has action haha so I wanted it to be available for me (and for you of course) not only when I offline (actually I tired to be offline so often and bought a new modem). </p>
+
+<p>Ladies and gentlemen, please welcome:</p>
+
+<p>(Press space to start. Hover with mouse cursor on the box with dashed border to prevent page scrolling when you press space key)</p>
+
+<div id="wrapper">
+  <div class="t-rex-container"></div>
+</div>
+
+<div id="offline-resources" jstcache="0">
+  <div id="offline-resources-1x" jstcache="0">
+    <img id="1x-obstacle-large" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAAAyCAMAAACJUtIoAAAACVBMVEX////39/dTU1OabbyfAAAAAXRSTlMAQObYZgAAAXhJREFUeF7t2NGqAjEMANGM///RlwvaYQndULuFPJgHUYaEI6IPhgNAOA8HZ+3U6384F5y1U6YzAZTWG+dZamnFEstBFtCKJZSHWMADLJ18z+JqpQeLdKoDC8siC5iFCQs4znIxB5B1t6F3lQWkL4N0JsF+u6GXJdbI+FKW+yWr3lhgCZ2VSag3Nlk/FnRkIRbasLCO0oulikMsvmGpeiGLZ1jOMgtIP5bODivYYUXEIVbwFCt4khVssRgsgidZwQaLd2A8m7MYLGTl4KeQQs2y4kMAMGGlmQViDIb5O6xZnnLD485dIBzqDSE1yyFdL4Iqu4XJqUUWl/NVAFSZq1P6a5aqbAUM2epQbBioWflUBABiUyhYyZoCBev8XyMAObDNOhOAfiyxmHU0YNlldGAphGjFCjA3YkUn1o/1Y3EkZFZ5isCC6NUgwDBn1RuXH96doNfAhDXfsIyJ2AnolcCVhay0kcYbW0HvCO8OwIcJ3GzkORpkFuUP/1Ec8FW1qJkAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="1x-obstacle-small" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGYAAAAjCAMAAABRlI+PAAAADFBMVEX////////39/dTU1PhglcSAAAAAXRSTlMAQObYZgAAAPNJREFUeF7tlkEKwzAMBLXr//+5iQhU7gRRQkyhZI+DhwH74jhmO+oIJBVwURljuAXagG5QqkSgBLqg3JnxJ1Cb8SmQ3o6gpO85owGlOB4m2BNKJ11BSd01owGlOHkcIAuHkz6UNpPKgozPM54dADHjJuNhZiJxdQCQgZJeBczgCAAy3yhPJvcnmdC9mZwBIsQMFV5AkzHBNknFgcKM+oyDIFcfCAoy03m+jSMIcmoVZkKqSjr1fghyahRmoKRUHYLiSI1SMlCq5CDgX6BXmKkfn+oQ0KEyyrzoy8GbXJ9xrM/YjhUZgl9nnsyTCe9rgSRdV15CwRcIEu8GGQAAAABJRU5ErkJggg==" jstcache="0" />
+    <img id="1x-cloud" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAOCAQAAAD6HOaKAAAAU0lEQVR4XrWSsQkAQAgD3X9El/ELixQpJHCfdApnUCtXz7o49cgagaGPaq4rIwAP9s/C7R7UX3inJ0BDb6qWDC7ScOR/QWjRlFizuPwLtTLj+qkH6DjD2wLtikUAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="1x-text" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL8AAAAYAgMAAADWncTDAAAABlBMVEX///9TU1NYzE1OAAAAAXRSTlMAQObYZgAAAO1JREFUeF690TFqxUAQA1BNoRtk7jMu3E9Auv9Vgr/5A863Y9zEhVhkHmhZsEGkw4Lppmllh1tcLHx+aRj2YnEDuQFvcQW+EoZY0TQLCZbEVxRxAvY+i8ikW0C0bwFdbictG2zvu/4EcCuBF0B23IBsQHZBYgm1n86BN+BmyV5rQFyCJAiDJSTfgBV9BbjvXdzIcKchpMOYd3gO/jvCeuUGFALg95J0/SrtQlrzz+sAjDwCIQsbWAdgbqrQpKYRjmPuAfU5dMC+c0rxOTiO+T6ZlK4pbcDLI1DIRaf3GxDGALkQHnD+cGhMKeox+AEOL3mLO7TQZgAAAABJRU5ErkJggg==" jstcache="0" />
+    <img id="1x-horizon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAAMAgMAAAAPCKxBAAAABlBMVEX///9TU1NYzE1OAAAAAXRSTlMAQObYZgAAALJJREFUeF7t1EEKAyEMhtEvMNm7sPfJEVyY+1+ltLgYAsrQCtWhbxEhQvgxIJtSZypxa/WGshgzKdbq/UihMFMlt3o/CspEYoihIMaAb6mCvM6C+BTAeyo+wN4yykV/6pVfkdLpVyI1hh7GJ6QunUoLEQlQglNP2nkQkeF8+ei9cLxMue1qxVRfk1Ej0s6AEGWfVOk0QUtnK5Xo0Lac6wpdtnQqB6VxomPaz+dgF1PaqqmeWJlz1jYUaSIAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="1x-trex" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAAvAgMAAABiRrxWAAAADFBMVEX///9TU1P39/f///+TS9URAAAAAXRSTlMAQObYZgAAAPpJREFUeF7d0jFKRkEMhdGLMM307itNLALyVmHvJuzTDMjdn72E95PGFEZSmeoU4YMMgxhskvQec8YSVFX1NhGcS5ywtbmC8khcZeKq+ZWJ4F8Sr2+ZCErjkJFEfcjAc/6/BMlfcz6xHdhRthYzIZhIHMcTVY1scUUiAphK8CMSPUbieTBhvD9Lj0vyV4wklEGzHpciKGOJoBp7XDcFs4kWxxM7Ey3iZ8JbzASAvMS7XLOJHTTvEkEZSeQl7DMuwVyCasqK5+XzQRYLUJlMbPXjFcn3m8eKBSjWZMJwvGIOvViAzCbUj1VEDoqFOEQGE3SyInJQLOQMJL4B7enP1UbLXJQAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="1x-restart" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAgCAQAAADQmBIFAAAAZklEQVR4Xu3WMQoAIAxDUe/Y+58jYwV1CwQJWQT5o/DAoaWjV2i/LRym/A5FjEsR41LPQchByEHwIVAEC4gZpghmSDP8egXpr/hQZaAKQFQe+pBOQAblDC336qrlPpSg0MEjInbWTLFFmwc8TpTAAAAAAElFTkSuQmCC" jstcache="0" />
+  </div>
+  <div id="offline-resources-2x" jstcache="0">
+    <img id="2x-obstacle-large" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABkBAMAAADOLxDzAAAACVBMVEX///9TU1P39/ea77PDAAAAAXRSTlMAQObYZgAAAa9JREFUeF7t1lFqhEAQBuG+wl6h7n/IEEgKlma2R8Vk1O4HWSh++Xzb8AKA8E4IXrlYnsXr+zgh1OdifZbBdFIApdWiWShtVhmQ+jAWMLFollCOsTzgxiyd7GcR01/YLOZf1SwsN2EBozBgAU9l4TAHkDWzCNjKApZlybO4z+GtFwu9bGKZl2TJSyxDxaoX8yyha7LGZRDqxR+ymtUsaNaWhTM+s5rl05tjNUsVz2Kxi6XqhSy4NcvbzgLSnzzvjqzgCCsiHsXSdZwVPIAVHGIhi+ABrOAAi5+Avy7HQhaycpAVpDDBsuKDAOBCrHzjQHgYhl9YsHxf+vRrsQxjVVAsDNMsF6uydBUhq+wWBq/ayCKWZekqA6DKPPEq/ZMsYllWdgGDoMdaLAzMsFwszgoAi1pDxUrWFKhZLlZnpXIkAORAs7YEoFmzQSxmt2NWs+xOP7GapRCiZjUrwFyymhX/xmpWs5rVrGZxQphmsT6LAAsvdgcBhmmWi9VZvN7+x+4K2WtgwBosFmZZvIh9IXsl8M5C1mCxLsvTfizoxfDTAfgdAIPFlVhxRqgHlrVZX9y44aEEvVqmAAAAAElFTkSuQmCC" jstcache="0" />
+    <img id="2x-obstacle-small" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAABGBAMAAAByJ2Z/AAAADFBMVEX///9TU1P39/f///+TS9URAAAAAXRSTlMAQObYZgAAARZJREFUeF7t2NEJwzAQg2GtcCtoBe2/W6k5aK8qLgR6ToL9KPzzgR+NPCRRjg2ScjiQ9DKMCE4HRYQOJB2MJyXyQWPQgeSCDD8HnYHh10F6NbJk9KyMwpJ+hkEfnoSyGX1NUmAOqVjSz4zrNgwhm9FbMmEyuS7DpQw/Gf5kOGEYXMgwWBobnGHQmZKsYuyKDcZk8gdmM5uJMzKbgS7I5KENgJzxxN95PUMfAKi8gCXO6BQM4cM4ysEZwplyfxFDErAhmWniDKT3pJEpD2RDMpPEGUt6mOIQ1XFGmiXOZNLIgKUpgzH4lTgDtDIgmY0NznhSnWhk/v2ZkuONGOI2DEn0MNf7ttvMZjazmc2AJDkdJOlQ0sk8AC45t4r28J0GAAAAAElFTkSuQmCC" jstcache="0" />
+    <img id="2x-cloud" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAAAcAgMAAACR2TCnAAAABlBMVEUAAADa2to4qB92AAAAAXRSTlMAQObYZgAAAFFJREFUeF6VzTEKAFEIxNA03m+a3P8q2wqi/E35BIdeGXq3q5hnrwBs7mC5vIZzu/nnqI319vRtqHB731blwSHjx+22+Rdn94rzQq0ugKPVlz5onyJcGdu0NgAAAABJRU5ErkJggg==" jstcache="0" />
+    <img id="2x-text" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX4AAAAwAQMAAAAsMYMXAAAABlBMVEUAAABTU1OoaSf/AAAAAXRSTlMAQObYZgAAAPdJREFUeF7tkzFqAzEQRb9RsZ11BF0jlXSlpDdYOcFeSeCLKLeYQujHwxRrtF0gUoqo+AwfPRh4DDZByKk7tkv3rNszWhLHKv7BhtObALxF3LP44vRvRoLPTa4avoS8BLA+PSNFzyqAq/wDwNZxrxKBxq5axLGRS4EkgP6A6rrhy6ZVQLoiZKpfRJ8NqCp+HbCZpAcromNNHTfoeWS7hwnA//tROIpm17lddCbFgMAylGSZANiRhL1ou2treo0/ErB5AtAwbr8e8HK28wpwP8rmpwCv23+cPZhvK8GOCUD4lMHRALiOw8O9TAAcB2C8B7zDSvPw+8A3sQJ/MSdPGzIAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="2x-horizon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACWAAAAAYAQMAAABEalRSAAAABlBMVEX///9TU1NYzE1OAAAAAXRSTlMAQObYZgAAAOtJREFUeF7tljEKwzAMRb/J0CWgI/QKOYAh1+pUcjQfpUfw2MFEHVyDQSQmQUNM9AYNcobnh4egU+YVqhAvZSpgsfolPnSv5d0nz3vHslgUdK81RLzyvHcsi+WBNxQh4Ln8pw4Wi7skAg9mXgHMrEACXJnbHIllsbqGAtwXhnYswzFzwPWxWEPc2CexoobkHM4ZpD6s2loWiyIEEwCChIomMiMEHqgP573C9eHkc5VLWh3XsljnGVoLWVl+31bp38piTVVuihtPOAm9kcRLbrFjEvqwamtZLK5eI8sSan9rXEK0LcNFrY5oWawf59S7YSRD7eMAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="2x-trex" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhAAAABeAgMAAAAPo8UvAAAADFBMVEX///9TU1P39/f///+TS9URAAAAAXRSTlMAQObYZgAAASdJREFUeF7t1qFOBEEQRdEyGP7vGQy/hsHc/0MPSe8ylU2vKEIqqQnviRZXdI7pyUQuONda901FGAG6j8aa+6mDEUboHP01sk5EHHWEjt/UY0dk/U+Ir/cdkXUEovV1GFF/HQMR/mLWEUYYYQRrf65XRhgB2595Y80lYRjCCG7AV/IZ0FdDabgDhiKMgE+tAX01ES+ajDBCADpHZw0tRdaZCCNEGhCdNSSlQTEVYUROQGeNxxoxH2EErXU+wohdQXONqyBorDsixiB2Be01JiOM2BXQX1MRUxFGpAL6aypiMsIIJCFBtSK98fFYKd6wFDEbYUQgEYh6hTSkonbDDTAdYQTrKNd9QPWGUFwAYYRYR7U+XemGfB0ajTACWEe1Pl3thtxMhBHfOCEbEnR2KZcAAAAASUVORK5CYII=" jstcache="0" />
+    <img id="2x-restart" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABAAgMAAADE0Nm5AAAACVBMVEX////39/dTU1OabbyfAAAAAXRSTlMAQObYZgAAAGNJREFUeF7d1CEOwDAMQ9GS3q/ExPcz8Sm3gYBWVRo0afvwSQl0ax1To22JntKWupfGjriSXiLViCXCmXBHCykJTxaYEeIQGcVrHYklcoX8YYpSUggzcpBTiv5JtQWorUltmS6s4ZKtz2GgjAAAAABJRU5ErkJggg==" jstcache="0" />
+  </div>
+  <template id="audio-resources" jstcache="0">
+    <audio id="offline-sound-press" src="data:audio/mpeg;base64,T2dnUwACAAAAAAAAAABVDxppAAAAABYzHfUBHgF2b3JiaXMAAAAAAkSsAAD/////AHcBAP////+4AU9nZ1MAAAAAAAAAAAAAVQ8aaQEAAAC9PVXbEEf//////////////////+IDdm9yYmlzNwAAAEFPOyBhb1R1ViBiNSBbMjAwNjEwMjRdIChiYXNlZCBvbiBYaXBoLk9yZydzIGxpYlZvcmJpcykAAAAAAQV2b3JiaXMlQkNWAQBAAAAkcxgqRqVzFoQQGkJQGeMcQs5r7BlCTBGCHDJMW8slc5AhpKBCiFsogdCQVQAAQAAAh0F4FISKQQghhCU9WJKDJz0IIYSIOXgUhGlBCCGEEEIIIYQQQgghhEU5aJKDJ0EIHYTjMDgMg+U4+ByERTlYEIMnQegghA9CuJqDrDkIIYQkNUhQgwY56ByEwiwoioLEMLgWhAQ1KIyC5DDI1IMLQoiag0k1+BqEZ0F4FoRpQQghhCRBSJCDBkHIGIRGQViSgwY5uBSEy0GoGoQqOQgfhCA0ZBUAkAAAoKIoiqIoChAasgoAyAAAEEBRFMdxHMmRHMmxHAsIDVkFAAABAAgAAKBIiqRIjuRIkiRZkiVZkiVZkuaJqizLsizLsizLMhAasgoASAAAUFEMRXEUBwgNWQUAZAAACKA4iqVYiqVoiueIjgiEhqwCAIAAAAQAABA0Q1M8R5REz1RV17Zt27Zt27Zt27Zt27ZtW5ZlGQgNWQUAQAAAENJpZqkGiDADGQZCQ1YBAAgAAIARijDEgNCQVQAAQAAAgBhKDqIJrTnfnOOgWQ6aSrE5HZxItXmSm4q5Oeecc87J5pwxzjnnnKKcWQyaCa0555zEoFkKmgmtOeecJ7F50JoqrTnnnHHO6WCcEcY555wmrXmQmo21OeecBa1pjppLsTnnnEi5eVKbS7U555xzzjnnnHPOOeec6sXpHJwTzjnnnKi9uZab0MU555xPxunenBDOOeecc84555xzzjnnnCA0ZBUAAAQAQBCGjWHcKQjS52ggRhFiGjLpQffoMAkag5xC6tHoaKSUOggllXFSSicIDVkFAAACAEAIIYUUUkghhRRSSCGFFGKIIYYYcsopp6CCSiqpqKKMMssss8wyyyyzzDrsrLMOOwwxxBBDK63EUlNtNdZYa+4555qDtFZaa621UkoppZRSCkJDVgEAIAAABEIGGWSQUUghhRRiiCmnnHIKKqiA0JBVAAAgAIAAAAAAT/Ic0REd0REd0REd0REd0fEczxElURIlURIt0zI101NFVXVl15Z1Wbd9W9iFXfd93fd93fh1YViWZVmWZVmWZVmWZVmWZVmWIDRkFQAAAgAAIIQQQkghhRRSSCnGGHPMOegklBAIDVkFAAACAAgAAABwFEdxHMmRHEmyJEvSJM3SLE/zNE8TPVEURdM0VdEVXVE3bVE2ZdM1XVM2XVVWbVeWbVu2dduXZdv3fd/3fd/3fd/3fd/3fV0HQkNWAQASAAA6kiMpkiIpkuM4jiRJQGjIKgBABgBAAACK4iiO4ziSJEmSJWmSZ3mWqJma6ZmeKqpAaMgqAAAQAEAAAAAAAACKpniKqXiKqHiO6IiSaJmWqKmaK8qm7Lqu67qu67qu67qu67qu67qu67qu67qu67qu67qu67qu67quC4SGrAIAJAAAdCRHciRHUiRFUiRHcoDQkFUAgAwAgAAAHMMxJEVyLMvSNE/zNE8TPdETPdNTRVd0gdCQVQAAIACAAAAAAAAADMmwFMvRHE0SJdVSLVVTLdVSRdVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTdM0TRMIDVkJAJABAKAQW0utxdwJahxi0nLMJHROYhCqsQgiR7W3yjGlHMWeGoiUURJ7qihjiknMMbTQKSet1lI6hRSkmFMKFVIOWiA0ZIUAEJoB4HAcQLIsQLI0AAAAAAAAAJA0DdA8D7A8DwAAAAAAAAAkTQMsTwM0zwMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQNI0QPM8QPM8AAAAAAAAANA8D/BEEfBEEQAAAAAAAAAszwM80QM8UQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwNE0QPM8QPM8AAAAAAAAALA8D/BEEfA8EQAAAAAAAAA0zwM8UQQ8UQQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAABDgAAAQYCEUGrIiAIgTADA4DjQNmgbPAziWBc+D50EUAY5lwfPgeRBFAAAAAAAAAAAAADTPg6pCVeGqAM3zYKpQVaguAAAAAAAAAAAAAJbnQVWhqnBdgOV5MFWYKlQVAAAAAAAAAAAAAE8UobpQXbgqwDNFuCpcFaoLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAABhwAAAIMKEMFBqyIgCIEwBwOIplAQCA4ziWBQAAjuNYFgAAWJYligAAYFmaKAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAGHAAAAgwoQwUGrISAIgCADAoimUBy7IsYFmWBTTNsgCWBtA8gOcBRBEACAAAKHAAAAiwQVNicYBCQ1YCAFEAAAZFsSxNE0WapmmaJoo0TdM0TRR5nqZ5nmlC0zzPNCGKnmeaEEXPM02YpiiqKhBFVRUAAFDgAAAQYIOmxOIAhYasBABCAgAMjmJZnieKoiiKpqmqNE3TPE8URdE0VdVVaZqmeZ4oiqJpqqrq8jxNE0XTFEXTVFXXhaaJommaommqquvC80TRNE1TVVXVdeF5omiapqmqruu6EEVRNE3TVFXXdV0giqZpmqrqurIMRNE0VVVVXVeWgSiapqqqquvKMjBN01RV15VdWQaYpqq6rizLMkBVXdd1ZVm2Aarquq4ry7INcF3XlWVZtm0ArivLsmzbAgAADhwAAAKMoJOMKouw0YQLD0ChISsCgCgAAMAYphRTyjAmIaQQGsYkhBJCJiWVlEqqIKRSUikVhFRSKiWjklJqKVUQUikplQpCKqWVVAAA2IEDANiBhVBoyEoAIA8AgCBGKcYYYwwyphRjzjkHlVKKMeeck4wxxphzzkkpGWPMOeeklIw555xzUkrmnHPOOSmlc84555yUUkrnnHNOSiklhM45J6WU0jnnnBMAAFTgAAAQYKPI5gQjQYWGrAQAUgEADI5jWZqmaZ4nipYkaZrneZ4omqZmSZrmeZ4niqbJ8zxPFEXRNFWV53meKIqiaaoq1xVF0zRNVVVVsiyKpmmaquq6ME3TVFXXdWWYpmmqquu6LmzbVFXVdWUZtq2aqiq7sgxcV3Vl17aB67qu7Nq2AADwBAcAoAIbVkc4KRoLLDRkJQCQAQBAGIOMQgghhRBCCiGElFIICQAAGHAAAAgwoQwUGrISAEgFAACQsdZaa6211kBHKaWUUkqpcIxSSimllFJKKaWUUkoppZRKSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoFAC5VOADoPtiwOsJJ0VhgoSErAYBUAADAGKWYck5CKRVCjDkmIaUWK4QYc05KSjEWzzkHoZTWWiyecw5CKa3FWFTqnJSUWoqtqBQyKSml1mIQwpSUWmultSCEKqnEllprQQhdU2opltiCELa2klKMMQbhg4+xlVhqDD74IFsrMdVaAABmgwMARIINqyOcFI0FFhqyEgAICQAgjFGKMcYYc8455yRjjDHmnHMQQgihZIwx55xzDkIIIZTOOeeccxBCCCGEUkrHnHMOQgghhFBS6pxzEEIIoYQQSiqdcw5CCCGEUkpJpXMQQgihhFBCSSWl1DkIIYQQQikppZRCCCGEEkIoJaWUUgghhBBCKKGklFIKIYRSQgillJRSSimFEEoIpZSSUkkppRJKCSGEUlJJKaUUQggllFJKKimllEoJoYRSSimlpJRSSiGUUEIpBQAAHDgAAAQYQScZVRZhowkXHoBCQ1YCAGQAAJSyUkoorVVAIqUYpNpCR5mDFHOJLHMMWs2lYg4pBq2GyjGlGLQWMgiZUkxKCSV1TCknLcWYSuecpJhzjaVzEAAAAEEAgICQAAADBAUzAMDgAOFzEHQCBEcbAIAgRGaIRMNCcHhQCRARUwFAYoJCLgBUWFykXVxAlwEu6OKuAyEEIQhBLA6ggAQcnHDDE294wg1O0CkqdSAAAAAAAAwA8AAAkFwAERHRzGFkaGxwdHh8gISIjJAIAAAAAAAYAHwAACQlQERENHMYGRobHB0eHyAhIiMkAQCAAAIAAAAAIIAABAQEAAAAAAACAAAABARPZ2dTAARhGAAAAAAAAFUPGmkCAAAAO/2ofAwjXh4fIzYx6uqzbla00kVmK6iQVrrIbAUVUqrKzBmtJH2+gRvgBmJVbdRjKgQGAlI5/X/Ofo9yCQZsoHL6/5z9HuUSDNgAAAAACIDB4P/BQA4NcAAHhzYgQAhyZEChScMgZPzmQwZwkcYjJguOaCaT6Sp/Kand3Luej5yp9HApCHVtClzDUAdARABQMgC00kVNVxCUVrqo6QqCoqpkHqdBZaA+ViWsfXWfDxS00kVNVxDkVrqo6QqCjKoGkDPMI4eZeZZqpq8aZ9AMtNJFzVYQ1Fa6qNkKgqoiGrbSkmkbqXv3aIeKI/3mh4gORh4cy6gShGMZVYJwm9SKkJkzqK64CkyLTGbMGExnzhyrNcyYMQl0nE4rwzDkq0+D/PO1japBzB9E1XqdAUTVep0BnDStQJsDk7gaNQK5UeTMGgwzILIr00nCYH0Gd4wp1aAOEwlvhGwA2nl9c0KAu9LTJUSPIOXVyCVQpPP65oQAd6WnS4geQcqrkUugiC8QZa1eq9eqRUYCAFAWY/oggB0gm5gFWYhtgB6gSIeJS8FxMiAGycBBm2ABURdHBNQRQF0JAJDJ8PhkMplMJtcxH+aYTMhkjut1vXIdkwEAHryuAQAgk/lcyZXZ7Darzd2J3RBRoGf+V69evXJtviwAxOMBNqACAAIoAAAgM2tuRDEpAGAD0Khcc8kAQDgMAKDRbGlmFJENAACaaSYCoJkoAAA6mKlYAAA6TgBwxpkKAIDrBACdBAwA8LyGDACacTIRBoAA/in9zlAB4aA4Vczai/R/roGKBP4+pd8ZKiAcFKeKWXuR/s81UJHAn26QimqtBBQ2MW2QKUBUG+oBegpQ1GslgCIboA3IoId6DZeCg2QgkAyIQR3iYgwursY4RgGEH7/rmjBQwUUVgziioIgrroJRBECGTxaUDEAgvF4nYCagzZa1WbJGkhlJGobRMJpMM0yT0Z/6TFiwa/WXHgAKwAABmgLQiOy5yTVDATQdAACaDYCKrDkyA4A2TgoAAB1mTgpAGycjAAAYZ0yjxAEAmQ6FcQWAR4cHAOhDKACAeGkA0WEaGABQSfYcWSMAHhn9f87rKPpQpe8viN3YXQ08cCAy+v+c11H0oUrfXxC7sbsaeOAAmaAXkPWQ6sBBKRAe/UEYxiuPH7/j9bo+M0cAE31NOzEaVBBMChqRNUdWWTIFGRpCZo7ssuXMUBwgACpJZcmZRQMFQJNxMgoCAGKcjNEAEnoDqEoD1t37wH7KXc7FayXfFzrSQHQ7nxi7yVsKXN6eo7ewMrL+kxn/0wYf0gGXcpEoDSQI4CABFsAJ8AgeGf1/zn9NcuIMGEBk9P85/zXJiTNgAAAAPPz/rwAEHBDgGqgSAgQQAuaOAHj6ELgGOaBqRSpIg+J0EC3U8kFGa5qapr41xuXsTB/BpNn2BcPaFfV5vCYu12wisH/m1IkQmqJLYAKBHAAQBRCgAR75/H/Of01yCQbiZkgoRD7/n/Nfk1yCgbgZEgoAAAAAEADBcPgHQRjEAR4Aj8HFGaAAeIATDng74SYAwgEn8BBHUxA4Tyi3ZtOwTfcbkBQ4DAImJ6AA"></audio>
+    <audio id="offline-sound-hit" src="data:audio/mpeg;base64,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"></audio>
+    <audio id="offline-sound-reached" src="data:audio/mpeg;base64,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"></audio>
+  </template>
+</div>
+
+<script>
+  new Runner('.t-rex-container');
+
+  $(function(){
+    $('#wrapper').hover(
+      function(){ $('body').addClass('no-scroll') }, 
+      function(){ $('body').removeClass('no-scroll')}
+    )
+  })
+</script>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Want to Embed Recommendations From Your LinkedIn Profile on Your Blog? This Small Application May Help You.]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you/"/>
+    <updated>2014-11-16T16:40:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you</id>
+    <content type="html"><![CDATA[<script src="http://pashka4281.github.com/javascripts/posts_specific/linked_in_recommendations.js"></script>
+
+<script type="text/javascript" src="http://platform.linkedin.com/in.js"> 
+  api_key: 77x6e890qzbfth
+  authorize: true
+</script>
+
+<p>Hi everyone! It’s so great to meet you all again here hehe :)
+Today is Sunday and that’s mean I have much free time I need to spend somehow. </p>
+
+<p>There is one thing I was curious about for a long time: Why LinkedIn doesn’t provide a way to share recommendations on your profile to the public? They provide indeed, but the person who view recommendations should be signed in to LinkedIn to see them. Strange policy. There are many threads on linkedIn developers forums like those: <a href="https://developer.linkedin.com/thread/1430">https://developer.linkedin.com/thread/1430</a> and others. </p>
+
+<p>So what I actually wanted (and I believe not only me) is an ability to display my LinkedIn profile’s recommendations on my blog without forcing it’s visitors to sign in with Linked In. I digged lot’s of LI documentations, API, forum, stackoverflow etc. and found that LI doesn’t allow to do it. Why they do this way is a topic for another post, but now I want to present a small workaround for this problem. </p>
+
+<p><img src="http://gdurl.com/uss4" alt="Recommendations rocks!" />
+<!-- more --></p>
+
+<h3 id="workaround">Workaround</h3>
+<p>Ok let’s get closer to action: I wrote this small js application that generates script for embedding
+recommendations from your LI profile. What it do is simply pulling your recommendations (after you sign in)
+and creates a simple script based on them. So when you place the script on your page it will render all of
+your recommendations (in the same place where you placed it on your site) and it wouldn’t require visitors
+of your site to sign in with linked in. Yay! The script will even apply some pretty styling to the recommendations
+it embeds (You can easily check out how it looks on my <a href="http://pashka4281.github.com/about">about page</a>). Success? Not really.
+The main problem is that once generated, the script can’t update itself, so if you have some changes in your
+LI profile (e.g. new recommendation come) you should re-generate the script :( . </p>
+
+<p>Hope it can be useful for at least somebody.</p>
+
+<p>How to use:</p>
+<ul>
+  <li>sign in with LinkedIn</li>
+  <li>copy the script and paste on your site where you want your recommendations to be displayed</li>
+  <li>have fun :)</li>
+</ul>
+
+<p>P.S. don’t forget to update the script if you got new recommendation or some old one has been changed</p>
+
+<h3 id="the-application">The application</h3>
+
+<div id="plugin">
+  <script type="in/login" data-onauth="onLinkedInAuth">
+    Hello, <?js= firstName ?> <?js= lastName ?>.
+  </script>
+
+
+  <div class="settings">
+    <fieldset>
+      <legend>Height:</legend>
+      <div>
+        <label>
+          <input name="height" checked="true" type="radio" value="auto" />
+          Auto
+        </label>
+      </div>
+      <div>
+        <label>
+          <input name="height" type="radio" value="manual" />
+          Fixed (scrolls if exceeds the height)
+          <input id="heightInput" type="number" value="150" />
+        </label>
+      </div>
+    </fieldset>
+  </div>
+
+
+  <textarea disabled="true" id="output" placeholder="Please Sign in with your LinkedIn account. The code would be generated after that."></textarea>
+
+  <div class="preview">
+    <h4>Preview:</h4>
+    <div class="content"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('textarea#output').on('focus', function() {
+      var $this = $(this);
+      $this.select();
+      window.setTimeout(function() {
+        $this.select();
+      }, 1);
+      // Work around WebKit's little problem
+      function mouseUpHandler() {
+        // Prevent further mouseup intervention
+        $this.off("mouseup", mouseUpHandler);
+        return false;
+      }
+
+      $this.mouseup(mouseUpHandler);
+    });
+  })
+</script>
+
+<style type="text/css">
+#plugin{
+  margin-top: 15px; margin-bottom: 20px; font-size: 13px; line-height: 17px; color: #333; font-weight: normal; 
+  padding: 20px 20px; background: #f4f4f4; border: 1px solid #e9e9e9; border-width: 1px 0;
+}
+#plugin fieldset{ border: 2px solid #ccc; padding: 10px; margin-bottom: 10px; }
+#plugin .settings{ display: none; }
+#plugin #output:focus{border-color: #4993e5;}
+#plugin #output{
+  outline: none; font-size: 10px; min-height: 150px; padding: 5px 6px 4px; margin-top: 2px;
+  margin-bottom: 0px; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+  -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px;
+  border-radius: 2px; -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.1) inset; -moz-box-shadow: 0 0 3px rgba(0,0,0,0.1) inset;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1) inset; border: 1px solid #ccc; max-width: 100%; width: 100%; background: #fdfdfd; color: #333;
+}
+</style>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
+    <updated>2014-11-12T15:43:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
+    <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
+And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.
+I think you know some “dropped” issues or “timed-out” issues especially when you have unstable internet connection. Rick Cogley has recently posted 
+<a href="http://rick.cogley.info/articles/2013/12/14/keeping-ssh-alive/">some workarounds</a> to fix ssh. </p>
+
+<!-- more -->
+
+<h5 id="any-solution">Any solution?</h5>
+<p>So in my turn I wanted to present another tool called <a href="https://github.com/keithw/mosh">Mosh</a>.
+<img src="http://gdurl.com/7jVw" alt="img" />
+Mosh is an alternative remote terminal client that has some great benefits over ssh.</p>
+
+<ul>
+  <li>
+    <p>First and the most important for me - it has no problems with connection.
+At least I haven’t noticed a one for time I use it. Even when you leaved your
+remote session inactive for many hours, or temporarily lost internet connection.</p>
+  </li>
+  <li>
+    <p>Second - is it’s speed. Mosh has some kind of latency compensation. 
+When you types symbols displays immediately after you pressed button and the same time
+they begin being sent to the server. When you quickly types on a low-speed connection you
+could notice how it works: </p>
+
+    <p><img src="http://gdurl.com/2tos" alt="img" /></p>
+
+    <p>Underlined characters means that mosh client has not yet got a confirmation from the server about accepting those letters. When it is done, underlines are removed.</p>
+  </li>
+</ul>
+
+<p>It has more cool features like correct that you can read about on <a href="https://mosh.mit.edu/">official docs page</a>.
+Even more, there is an <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">android client</a> for true hackers that do things on the go :)</p>
+
+<p>One serious limitation I think is the need to install additional packages both on client and server while you get ssh out of the box on most operating systems. </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Setting Up Mysql Replication Locally]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally/"/>
+    <updated>2014-07-04T13:11:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally</id>
+    <content type="html"><![CDATA[<p>Mysql Replication setup manual</p>
+
+<p>This two tutorials helped me to solve several issues during setup, so strongly recommend:
+http://dev.mysql.com/doc/refman/5.5/en/replication-howto-repuser.html
+http://scriptingmysql.wordpress.com/2013/02/21/mysql-replication-creating-a-new-masterslave-topology-with-or-without-virtual-machines/</p>
+
+<p>I decided to set up different mysql instances using virtualbox. So in my case I have:
+ * host machine with ubuntu 12.04, x64
+ * guest OS running inside virtualbox (same ubuntu 12.04, but 32 bit) Networking using bridge
+Both running mysql 5.5
+master is on host machine, slave - on virtual one.</p>
+
+<!-- more -->
+
+<p>Steps:</p>
+
+<p>1 . Set up master mysql. 
+It’s just about up uncommenting binlog location and server id lines in my.cnf (requires server restart). Make sure the binlog file located in the directory that is exists and have correct owner (mysql). In my case it is /var/log/mysql/mysql-bin.log (which I think to change later since it seems to be cleared by the OS on each reboot). For server id I put “1”
+also comment out this line both for master and slave node’s configs:
+bind-address 127.0.0.1</p>
+
+<p>2 . Set up slave mysql (or several ones)
+Even easier. Just setting server id variable (each mysql node should have uniq id), I put “2” for this case.</p>
+
+<p>3 . Set up replication user on master which will be used by slave (or by all of them) to read data from master.
+Login to master mysql: </p>
+
+<p><code>$ mysql -uroot -p</code>
+general form of user creation command looks like this:</p>
+
+<p><code>mysql&gt; CREATE USER 'repl_user'@'%.mydomain.com' IDENTIFIED BY 'slavepass';</code></p>
+
+<p>but as my virtual machine has no domain or fixed ip address I used different form to allow connections from all domains:</p>
+
+<p><code>mysql&gt; CREATE USER 'repl_user'@'% IDENTIFIED BY 'slavepass';</code></p>
+
+<p>and add required privileges to the user:</p>
+
+<p><code>mysql&gt; GRANT REPLICATION SLAVE ON *.* TO 'repl_user'@'%';</code></p>
+
+<p>4 . Get binlog details for slaves
+connect to master using mysql command and then type:
+<code>mysql&gt; show master status\G;</code>
+you’ll see something like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">*************************** 1. row ***************************
+</span><span class="line">            File: mysql-bin.000001
+</span><span class="line">        Position: 107
+</span><span class="line">    Binlog_Do_DB:
+</span><span class="line">Binlog_Ignore_DB:
+</span><span class="line">1 row in <span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</span><span class="line">
+</span><span class="line">ERROR:
+</span><span class="line">No query specified
+</span><span class="line">we would need those File and Position parameters to specify on slaves.
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>5 . Create data snapshot from master node and push it to slaves
+<code>$ mysqldump --all-databases --master-data &gt; dbdump.db -uroot -p</code>
+then on virtual machine get this dump file (you can use shared folder between host OS and guest OS) and push it to slave mysql node (but before this stop slave mode -
+<code>mysql&gt; stop slave;</code> ) :
+<code>$ mysql &lt; dbdump.db -uroot -p</code>
+then run slave again:
+<code>mysql&gt; start slave;</code></p>
+
+<p>6 . Create user on slave that will be used by octopus</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mysql&gt; CREATE USER <span class="s1">&#39;slave_user&#39;</span>@<span class="s1">&#39;%&#39;</span> IDENTIFIED BY <span class="s1">&#39;slavepass&#39;</span>;
+</span><span class="line">mysql&gt; GRANT all priveleges on database_name.* TO <span class="s1">&#39;slave_user&#39;</span>@<span class="s1">&#39;%&#39;</span>;
+</span><span class="line">mysql&gt; flush priveleges;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>7 . Giving master’s information to slave</p>
+
+<p>On slave mysql console run:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="sh"><span class="line">mysql&gt; CHANGE MASTER TO <span class="nv">MASTER_HOST</span><span class="o">=</span><span class="s1">&#39;192.168.1.6&#39;</span>, <span class="nv">MASTER_USER</span><span class="o">=</span><span class="s1">&#39;repl_user&#39;</span>, <span class="nv">MASTER_PASSWORD</span><span class="o">=</span><span class="s1">&#39;slavepass&#39;</span>, <span class="nv">MASTER_LOG_FILE</span><span class="o">=</span><span class="s1">&#39;mysql-bin.000001&#39;</span>, <span class="nv">MASTER_LOG_POS</span><span class="o">=</span>107;
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;
+after this you will be able to run slave:
+<code>mysql&gt; start slave;</code></p>
+
+<p>Then to make sure it is connected, run <code>mysql&gt; show slave status\G;</code></p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mysql&gt; SHOW SLAVE STATUS<span class="se">\G</span>
+</span><span class="line">*************************** 1. row ***************************
+</span><span class="line">             Slave_IO_State: Waiting <span class="k">for </span>master to send event
+</span><span class="line">                Master_Host: 192.168.1.6
+</span><span class="line">                Master_User: repl_user
+</span><span class="line">                Master_Port: 3306
+</span><span class="line">              Connect_Retry: 3
+</span><span class="line">            Master_Log_File: mysql-bin.000001
+</span><span class="line">        Read_Master_Log_Pos: 107
+</span><span class="line">             Relay_Log_File: mysql-relay-bin.005
+</span><span class="line">              Relay_Log_Pos: 548
+</span><span class="line">      Relay_Master_Log_File: mysql-bin.005
+</span><span class="line">           Slave_IO_Running: Yes
+</span><span class="line">          Slave_SQL_Running: Yes
+</span><span class="line">            Replicate_Do_DB:
+</span><span class="line">        Replicate_Ignore_DB:
+</span><span class="line">         Replicate_Do_Table:
+</span><span class="line">     Replicate_Ignore_Table:
+</span><span class="line">    Replicate_Wild_Do_Table:
+</span><span class="line">Replicate_Wild_Ignore_Table:
+</span><span class="line">                 Last_Errno: 0
+</span><span class="line">                 Last_Error:
+</span><span class="line">               Skip_Counter: 0
+</span><span class="line">        Exec_Master_Log_Pos: 79
+</span><span class="line">            Relay_Log_Space: 552
+</span><span class="line">            Until_Condition: None
+</span><span class="line">             Until_Log_File:
+</span><span class="line">              Until_Log_Pos: 0
+</span><span class="line">         Master_SSL_Allowed: No
+</span><span class="line">         Master_SSL_CA_File:
+</span><span class="line">         Master_SSL_CA_Path:
+</span><span class="line">            Master_SSL_Cert:
+</span><span class="line">          Master_SSL_Cipher:
+</span><span class="line">             Master_SSL_Key:
+</span><span class="line">      Seconds_Behind_Master: 8
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Here two lines indicates that everything is ok:</p>
+
+<p><code>Slave_IO_Running: Yes</code></p>
+
+<p><code>Slave_SQL_Running: Yes</code></p>
+
+<p>If it is not, then they will contain error message.</p>
+
+<p>8 . Setup octopus config
+octopus config is located inside config/shards.yml file.
+in my case virtual machine has address 192.168.1.12 in my local network so putting this address inside config as well as user data from step 6: </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">octopus:
+</span><span class="line">  environments:
+</span><span class="line">    - development
+</span><span class="line">    - production
+</span><span class="line">  replicated: <span class="nb">true</span>
+</span><span class="line"><span class="nb">  </span>fully_replicated: <span class="nb">true </span>
+</span><span class="line"><span class="nb">  </span>development:
+</span><span class="line">    slave1:
+</span><span class="line">      host: 192.168.1.12
+</span><span class="line">      adapter: mysql2
+</span><span class="line">      database: database_name
+</span><span class="line">      username: slave_user
+</span><span class="line">      password: slavepass
+</span><span class="line">      reconnect: <span class="nb">false</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now we can run rails server and it should connect to all databases automatically.
+The log from rails app looks like this if everything correct:</p>
+
+<p>[Shard: slave1]  User Load (1.5ms)  SELECT <code>users</code>.* FROM <code>users</code> WHERE <code>users</code>.<code>remember_token</code> = ‘065c1bf9e95585b240e682cb380accee50551544’ LIMIT 1
+  Rendered layouts/_header.html.erb (3.2ms)
+  Rendered layouts/_messages.html.erb (0.2ms)
+  Rendered layouts/_footer.html.haml (0.9ms)
+Completed 200 OK in 57ms (Views: 49.4ms | ActiveRecord: 6.2ms)</p>
+
+<p>Note <code>[Shard: slave1]</code> that indicates which shard (slave) was used to get data from.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Boost Your Freelancer Profile: 5 Ultimate Tips]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/06/07/how-to-boost-your-freelancer-profile-5-ultimate-tips/"/>
+    <updated>2014-06-07T05:04:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/06/07/how-to-boost-your-freelancer-profile-5-ultimate-tips</id>
+    <content type="html"><![CDATA[<p>Working as a freelancer has huge benefints over traditional office job for sure.
+Really. Think of it: you free to choose when to work, how to work, how much do you take for your work and even who to work with. Great freedom that engages you to develop your online worker profile very quickly and start taking your first orders within days. There are a bunch of online tools/marketplaces out there that will help you in that. There is a good article on this topic I’d really engage you to check out: http://www.bnewton.co.uk/blog/my-ultimate-web-freelancing-compilation-guide-how-to-quit-your-day-job-and-become-a-full-time-freelancer/. I’m sure you’ll find something interesting for yourself there.
+What I want to discuss is the situation when you already have several years of freelance working experiance and you notice that your growing as a professional is not so fast as the first days of freelancing. You’ve probably asked yourself, “Is there any way I can improve the quality of services I provide thus making my client more happy and keep my rate up to date?”.</p>
+
+<p>Thinking of it need to say that developing your online profile is much like the same as promoting any othere product/service over the web so regular marketing techniques plays well here as well.</p>
+
+<p>Here are my thought about it.</p>
+
+<!-- more -->
+
+<ol>
+  <li>
+    <h2 id="increase-you-online-impact">Increase you online impact</h2>
+    <p>Probably the most valuable item in the whole list.
+Here I mean that you should’t limit yourself with having only one active online profile.
+It’s a really good idea to have your personal site and blog in additiona to your Elance profile. Taking part in open-source project development or having your side project are even better. Those are great indicators for potentional clients that you really passion about things you do and open-source contribution or strong StackOverflow profile confirms your comunity-proven skills. </p>
+  </li>
+</ol>
+
+<p>Think of your personal site as a landing page that converts visitors into clients. Developing your personal website requires much care. Especially if you’re a webdesigner/developer. This is a good place to show your skills, so spend some time to make it shine.</p>
+
+<ol>
+  <li>
+    <h2 id="keep-your-client-list-updated">Keep your client list updated</h2>
+    <p>As you works your clients list keeps growing and you probaly can’t even remeber everyone you have worked with. I beleive that your freelance success consists not only from the quality of services you provide but also depends strongly on your communication skills and building long time relations with your clients. I think many people have a big gap here. You need to keep in mind that it’s always easier to get a job from the client you have already worked with previously, since he or she already knows your reliability and quality of work. So being on-the-wire with your previous customers is really significant for you as a professional.</p>
+  </li>
+  <li>
+    <h2 id="learn-last-trendscutting-edge-technologies-in-your-area-of-expertise">Learn last trends/cutting-edge technologies in your area of expertise</h2>
+    <p>Developing your profile envolves continiously learning. “Spending half an hour every day on learning new tricks will make you the best specialist in your niche in 3 years” - my brother said once. Can’t dissagree with him on this point. Btw, this rule applies nicely not only on freelancing but literally on every aspect of your life: sports, health or even relations. The key part here: your sould be consistent. After all, half an hour a day not so much time to afraid to loose. I think we spend more in the our local store choosing ingridients for the dinner. </p>
+  </li>
+  <li>
+    <h2 id="improve-productivity">Improve productivity</h2>
+    <p>Your work should be effective in terms of time. But there is no chance to improve something if we don’t know the numbers. Use online services to track your activity over the day and in two weeks you’ll get detailed information of the most time consuming tasks. I’d recommend to choose one of the proven tools like Tahometer (http://www.tahometer.com/) or Timely (http://www.timelyapp.com/). Also think what processes that you do on the regular basics distratcs you from your main activity and can be automated to give you additional minutes or even hours of productive work. There is a good post about automation software you can find here: http://blog.bidsketch.com/freelancing/automatic-freelance-business/</p>
+  </li>
+  <li>
+    <h2 id="keep-your-working-space-clean--organized-have-good-rest-and-dont-try-over-working">Keep your working space clean &amp; organized, have good rest and don’t try “over-working”</h2>
+    <p>Sounds like an obvious thing, but from my own experience have huge influence on quality of work. As a freelancer you’re responsile of organizing your working space. If you work from homw, make sure that your hommies understands you’re working and wouldn’t distract you while you have skype conference with your clinet. Working in front of the monitor can be really hard so I recommend to to exceed 5-6 hours limit a day, and don’t forget to make short breaks every hour to give your eyes rest. Spend those time away from your laptop. This would help you feel good  by the end of the day :)</p>
+  </li>
+</ol>
+
+<p>Thanks to everyone read this post, hope you found something useful here and feel free to ask questions in the comments below. </p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Node JS Ecosystem From Rails Developer Perspective - Part1]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1/"/>
+    <updated>2014-06-01T04:50:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1</id>
+    <content type="html"><![CDATA[<p>That was a rainy night of Saturday when I was sitting down and reading some blog I found a notice about Node. Yay, now I know how to spend rest of the eve - I thought :)</p>
+
+<p>Honestly saying, some time ago I have already made “first steps” in writing server side js using node, but that was so long ago so I decided to try again and go further that first time.</p>
+
+<p>So let’s start from installing npm (node package manager - similar to gem from rails). I had it already installed but for those who just starting follow next steps (quote taken from ubuntu community).
+<!-- more --></p>
+
+<h2 id="step-1---installing-node">Step 1 - installing node</h2>
+
+<p>Those are pretty easy and not involving compiling stuff:</p>
+
+<blockquote>
+  <p>You can use this node.js PPA:</p>
+
+  <p><code>ppa:chris-lea/node.js</code></p>
+
+  <p>If you’re on Ubuntu Server, first do this:</p>
+
+  <p><code>$ sudo apt-get install python-software-properties</code></p>
+
+  <p>Then, do this:</p>
+
+  <p><code>$ sudo add-apt-repository ppa:chris-lea/node.js</code></p>
+
+  <p><code>$ sudo apt-get update</code></p>
+
+  <p><code>$ sudo apt-get install nodejs</code></p>
+
+  <p>Then, you have the latest version of node.js installed.</p>
+</blockquote>
+
+<p>Then, check if node was installed correctly:</p>
+
+<p><code>$ node -v</code></p>
+
+<h2 id="step-2---install-npm">Step 2 - Install NPM</h2>
+
+<p>Simply run the NPM install script:</p>
+
+<p>curl https://npmjs.org/install.sh | sudo sh
+And then check it works:</p>
+
+<p>npm -v
+That’s all.</p>
+
+<h2 id="step-3---creating-basic-skeleton-of-you-very-first-node-web-app">Step 3 - Creating basic skeleton of you very first Node web app</h2>
+<p>For accomplishing this step I strongly recommend to use ExpressJs - a small npm package (aka gem) that boost your node app with such nice features as routing, template handling (Jade by default –  very similar to haml) and some other useful stuff. Creating server with expressjs is also simple proccessas well as configuring it. Node app has no strict folders structure (as Rails do) but it nice to have some place to start of. There are plently much app template/seed projects available out there, let’s use on of them that contains basic blog application:</p>
+
+<p><code>https://github.com/btford/angular-express-blog</code></p>
+
+<p>(yeah-yeah you have already noticed this seed project includes AngularJS :) – we’ll get back to it a bit later )</p>
+
+<p>So:</p>
+
+<p><code>$ git clone https://github.com/btford/angular-express-blog.git &amp;&amp; cd angular-express-blog</code></p>
+
+<p>Then run</p>
+
+<p><code>$ npm install</code> to install all the app dependencies (this is similar to bundle install in rails. This command will install dependencies described in package.json file – node analog for Gemfile. You can edit it to add required libs/plugins)</p>
+
+<p>This should run smoothly and finaly we’re able to run our app!
+<code>$ node app.js</code></p>
+
+<p><code>$ Express server listening on port 3000 in development mode</code></p>
+
+<p>Now open your favourite browser and point it to http://localhost:3000</p>
+
+<p>This is what you would see, your first hand-made Node js blog. We did it :) </p>
+
+<p><img src="https://farm3.staticflickr.com/2906/14314489362_f2296fd5ab_b.jpg" alt="" /></p>
+
+<h2 id="step-4---application-structure">Step 4 - application structure</h2>
+
+<p>Basically the structure of the app skeleton we have copied looks like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">README.md
+</span><span class="line">app.js              --&gt; app config
+</span><span class="line">package.json        --&gt; <span class="k">for </span>npm
+</span><span class="line">public/             --&gt; all of the files to be used in on the client side
+</span><span class="line">  css/              --&gt; css files
+</span><span class="line">    app.css         --&gt; default stylesheet
+</span><span class="line">  img/              --&gt; image files
+</span><span class="line">  js/               --&gt; javascript files
+</span><span class="line">    app.js          --&gt; <span class="nb">declare </span>top-level app module
+</span><span class="line">    controllers.js  --&gt; application controllers
+</span><span class="line">    directives.js   --&gt; custom angular directives
+</span><span class="line">    filters.js      --&gt; custom angular filters
+</span><span class="line">    services.js     --&gt; custom angular services
+</span><span class="line">    lib/            --&gt; angular and 3rd party JavaScript libraries
+</span><span class="line">      angular/
+</span><span class="line">        angular.js            --&gt; angular js
+</span><span class="line">        angular.min.js        --&gt; minified angular js
+</span><span class="line">        angular-*.js          --&gt; angular add-on modules
+</span><span class="line">        version.txt           --&gt; version number
+</span><span class="line">routes/
+</span><span class="line">  api.js            --&gt; route <span class="k">for </span>serving JSON
+</span><span class="line">  index.js          --&gt; route <span class="k">for </span>serving HTML pages and partials
+</span><span class="line">views/
+</span><span class="line">  index.jade        --&gt; main page <span class="k">for </span>app
+</span><span class="line">  layout.jade       --&gt; doctype, title, head boilerplate
+</span><span class="line">  partials/         --&gt; angular view partials <span class="o">(</span>partial jade templates<span class="o">)</span>
+</span><span class="line">    addPost.jade
+</span><span class="line">    deletePost.jade
+</span><span class="line">    editPost.jade
+</span><span class="line">    index.jade
+</span><span class="line">    readPost.jade
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It’s pretty self-explanary, I’ll stop only for certain moments to clarify.
+The main starting point of the app is actually app.js file. it combines some <code>require</code> statements to load external libs, code for setting up express server and define some config parameters to it (e.g. templating engine, running port, routes etc.).</p>
+
+<h2 id="step-5---expressjs-routings">Step 5 - ExpressJS routings</h2>
+
+<p>Special quote for routes. They have some differences comparing to Rails’s. The app.js contains routes only constraints but their definitions are placed under ./routes folder. 
+Instead of mapping an http route to controller’s action (like rails do) express routes defines make rails controllers job as well: they define what to do with the request (e.g. redirect it) or what data should be sent for a particular request.
+Consider example:</p>
+
+<p>We requring definitions contained in ./routes/api.js file and place it to api variable
+<code>var api = require('./routes/api');</code></p>
+
+<p>Then to map <code>posts</code> definition to get request for ‘/api/posts’ path we do this:
+<code>app.get('/api/posts', api.posts);</code></p>
+
+<p>This would work since /routes/api.js contains definition named ‘posts’:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">exports.posts <span class="o">=</span> <span class="k">function</span> <span class="o">(</span>req, res<span class="o">)</span> <span class="o">{</span>
+</span><span class="line">  var <span class="nv">posts</span> <span class="o">=</span> <span class="o">[]</span>;
+</span><span class="line">  data.posts.forEach<span class="o">(</span><span class="k">function</span> <span class="o">(</span>post, i<span class="o">)</span> <span class="o">{</span>
+</span><span class="line">    posts.push<span class="o">({</span>
+</span><span class="line">      id: i,
+</span><span class="line">      title: post.title,
+</span><span class="line">      text: post.text.substr<span class="o">(</span>0, 50<span class="o">)</span> + <span class="s1">&#39;...&#39;</span>
+</span><span class="line">    <span class="o">})</span>;
+</span><span class="line">  <span class="o">})</span>;
+</span><span class="line">  res.json<span class="o">({</span>
+</span><span class="line">    posts: posts
+</span><span class="line">  <span class="o">})</span>;
+</span><span class="line"><span class="o">}</span>;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>So when client requests /api/posts via GET ‘posts’ function will be called.
+The common format of the route definition fuction is
+<code>function(req, res){ ... }</code></p>
+
+<p>Req and res objects stands for Request and Response respectively. They have plently on methods to deal with request and response, but in our case we want to render json, this goal is accomplished by calling json function on res object and passing desired json as an argument:</p>
+
+<p><code>function(req, res){ res.json({ foo: "bar" }) }</code></p>
+
+<p>This way you can easily create json API for your client side code.
+Another way of using routes - rendering templates. Example from our app you can inspecting <code>./routes/index.js</code> file.
+Similar to rendering json but using ‘render’ function on res object:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line"><span class="k">function</span><span class="o">(</span>req, res<span class="o">){</span>
+</span><span class="line">  res.render<span class="o">(</span><span class="s1">&#39;index&#39;</span><span class="o">)</span>;
+</span><span class="line"><span class="o">}</span>;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It would pick up and render template ‘index.jade’ under ./views folder.</p>
+
+<h2 id="step-6---jade-templates">Step 6 - Jade templates</h2>
+<p>More detailed info about jade templating language can be found here http://jade-lang.com/
+It has similar to haml syntax so if you know how to write haml you’ll be easy to deal with jade. (Need to say, I’m sure you can find plugins for haml support as well).
+Most important notice for us as rails developers - it supports layouts, partials and other good stuff we used to work with in Rails.</p>
+
+<p>Jade layout should contain <code>block body</code> code. Thi is a place where templates will  be included:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">!!!
+</span><span class="line">html<span class="o">(</span>ng-app<span class="o">=</span><span class="s2">&quot;myApp&quot;</span><span class="o">)</span>
+</span><span class="line">  head
+</span><span class="line">    meta<span class="o">(</span><span class="nv">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="o">)</span>
+</span><span class="line">    base<span class="o">(</span><span class="nv">href</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="o">)</span>
+</span><span class="line">    title Angular Express Seed App
+</span><span class="line">    link<span class="o">(</span><span class="nv">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span>, <span class="nv">href</span><span class="o">=</span><span class="s1">&#39;/bower_components/bootstrap/dist/css/bootstrap.min.css&#39;</span><span class="o">)</span>
+</span><span class="line">    link<span class="o">(</span><span class="nv">rel</span><span class="o">=</span><span class="s1">&#39;stylesheet&#39;</span>, <span class="nv">href</span><span class="o">=</span><span class="s1">&#39;/css/app.css&#39;</span><span class="o">)</span>
+</span><span class="line">  body
+</span><span class="line">    include shared/navbar
+</span><span class="line">    .container
+</span><span class="line">      block body
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>include shared/navbar</code> will include navbar.jade partial located inside ./views/shared folder.</p>
+
+<p>BTW, if you’re using sublime2 as you text editor there is a simple tutorial of adding jade syntax highlighting to it:
+&gt; Hit Command-Shift-P to open up the Command Palette, where you can type “install package”.   Hit enter and it will open up another search box.
+&gt; Type “jade” and it should autocomplete to the Jade package.  Hit enter to install the package.
+&gt; Restart Sublime Text 2.</p>
+
+<p>That’s it for layouts. As for views, they should contain layout name which should be used for rendering:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">extends layout
+</span><span class="line">
+</span><span class="line">block body
+</span><span class="line">  div.container
+</span><span class="line">    Hello!
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><code>extend layout</code> here says that this view should be rendered under layout named “layout” :)</p>
+
+<p>So that’s it for this post, in next posts I’ll tell you how angular works for this app, how to deal with assets using Bower, setting up database connection and even bringing some ORM functionality to you nodeJs app. Stay tuned!
+Questions are really welcome :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[First Steps in Ruby Language]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/05/10/first-steps-in-ruby-language/"/>
+    <updated>2014-05-10T20:48:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/05/10/first-steps-in-ruby-language</id>
+    <content type="html"><![CDATA[<h1 id="ruby">Этап 1. Установка Ruby</h1>
+
+<p>Для установки будем использовать RVM.
+&gt; Самый популярный инструмент для установки Ruby это RVM (“Ruby Version Manager”). 
+ RVM - это набор скриптов, который позволяет легко устанавливать разные версии Ruby-интерпрет етора и также легко между ними переключаться </p>
+
+<!-- more -->
+
+<p>На момент написания статьи, вы можете установить RVM следующей командой:</p>
+
+<p><code>$ curl -L https://get.rvm.io | bash -s stable</code></p>
+
+<p>Последние инструкции по установке RVM вы можете найти на странице установки RVM. Команда выше установит вам как RVM, так и последнюю версию Ruby. При помощи RVM вы также можете установить большинство имплементаций Ruby перечисленных ниже. Чтобы посмотреть все поддержвиваемые версии, наберите rvm list known.</p>
+
+<p>Проверяем правильность установки:</p>
+
+<p><code>$ rvm -v</code></p>
+
+<p>Результиат должен выглядеть примерно так: </p>
+
+<p><code>rvm 1.20.13 (stable) by Wayne E. Seguin &lt;wayneeseguin@gmail.com&gt;, Michal Papis &lt;mpapis@gmail.com&gt; [https://rvm.io/]</code></p>
+
+<p>Если что-то не так, гуглим, исправляем ошибки :)</p>
+
+<p>Когда RVM установлен, установить Ruby очень легко (рекумендую устанавливать Ruby свежих версий - 2.x.x ):</p>
+
+<p><code>$ rvm install 2.0.0</code></p>
+
+<p>Это займет минут 10-15. После этого нужно указать RVM что мы хотим использовать толькочто установленную версию руби по умолчанию:</p>
+
+<p><code>$ rvm use 2.0.0 --default</code></p>
+
+<p>После этого в консоли станет доступна команда интерпретатора ‘ruby’, проверить можно так:</p>
+
+<p><code>$ ruby -v</code></p>
+
+<p>Ответ будет похожим на это:</p>
+
+<p><code>ruby 2.0.0p195 (2013-05-14 revision 40734) [x86_64-linux]</code></p>
+
+<h2 id="rvm---">Ссылки с информацией про установку RVM и не только:</h2>
+<ul>
+  <li>http://octopress.org/docs/setup/rvm/</li>
+  <li>http://rvm.io/rvm/install</li>
+  <li>
+    <h2 id="httphabrahabrrupost120504">http://habrahabr.ru/post/120504/</h2>
+  </li>
+</ul>
+
+<h2 id="section">Этап 2. Знакомство с языком :</h2>
+
+<p>Здесь просто приведу эту ссылку, в которой очень много полезных материалов для изучения: </p>
+
+<p>https://www.ruby-lang.org/ru/documentation/</p>
+
+<p>Удачи!</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby Lovers Club - First Meetup]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/05/10/ruby-lovers-club-first-meetup/"/>
+    <updated>2014-05-10T16:05:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/05/10/ruby-lovers-club-first-meetup</id>
+    <content type="html"><![CDATA[<p>10/05/14 18:30</p>
+
+<div id="map_canvas" style="height: 200px;"></div>
+
+<script type="text/javascript">
+  function initializeMap() {
+    var mapCenter = new google.maps.LatLng(50.005843,36.23571);
+    var mapOptions = {
+      zoom: 15,
+      center: mapCenter,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    
+    var marker = new google.maps.Marker({
+      position: mapCenter,
+      map: map,
+      title: "Все сюда!"
+    });
+  }
+
+  function loadMapScript() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "http://maps.googleapis.com/maps/api/js?sensor=true&callback=initializeMap";
+    document.body.appendChild(script);
+  }
+  $(document).ready(loadMapScript)
+</script>
+
+<p>Привет всем! Сегодня 10 мая - первый сбор нашей толпы руби фанов :)
+<!-- more -->
+В этом блоге будут собраны ссылки, примеры кода и другая информация, которая поможет в процессе обучения юных падаванов Ruby.</p>
+
+<p>Пример кода выглядит так:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span>Кусок Ruby кода</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="k">class</span> <span class="nc">Foo</span>
+</span><span class="line">  <span class="k">def</span> <span class="nf">bar?</span>
+</span><span class="line">    <span class="kp">true</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Задача на сегодня - встретиться, познакомиться и пообщаться в спокойной обстановке, обсудить наш план дальнейших действий.
+Ок, остался час, начинаем выдвигаться :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Web Application Directly on Your Android Device]]></title>
+    <link href="http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device/"/>
+    <updated>2013-01-31T17:17:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device</id>
+    <content type="html"><![CDATA[<p>If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:</p>
+
+<ul>
+  <li>Obviously, you’ll need an android device you’re going to test on (preferably Android 3.2 and higher)</li>
+  <li>Android SDK installed</li>
+  <li>Both desktop and mobile should run Google Chrome Browser (Chrome beta is also supported)</li>
+  <li>USB cable</li>
+</ul>
+
+<!-- more -->
+<p>At first, download Android SDK from <a href="http://developer.android.com/sdk/index.html">official site</a> 
+then extract it’s content. I use Ubuntu and in my case SDK is located inside of ‘bin’ folder, 
+right under ‘home’ foler: <code>~/bin/adt-bundle-linux-x86_64/</code>. </p>
+
+<p>When you have SDK installed, connect your mobile device using USB cable to your desktop. 
+But first you need to enable USB debugging on your mobile device, both in Chrome and system settings. 
+Once you did it, you need to make sure your device is correctly detected, run “adb” tool for that: <br />
+<code>~$ cd ~/bin/adt-bundle-linux-x86_64/sdk/platform-tools</code> <br />
+<code>~$ ./adb devices</code></p>
+
+<p>You’ll get output similar to this:</p>
+
+<blockquote>
+  <p>List of devices attached <br />
+  4df1f0377f5f8fc7    device</p>
+</blockquote>
+
+<p>So we can see device is listed correctly. Next, enable port forwarding by running this command: <br />
+<code>./adb forward tcp:9222 localabstract:chrome_devtools_remote</code></p>
+
+<p>This should yield some output, but in my case it showed nothing.
+Now it’s time for most interesting! Open Chrome both on Android device and on desktop. 
+Follow your desktop browser to this URL <code>http://localhost:9222/</code> and’re going to see the 
+list of opened tabs on your mobile device:</p>
+
+<p><img src="http://farm9.staticflickr.com/8492/8431975033_2fbe3d65fd_z.jpg" alt="img" /></p>
+
+<p>After you have choose one you’ll see usual chrome developer tools window:</p>
+
+<p><img src="http://farm9.staticflickr.com/8217/8431995941_0a6485bb3f_z.jpg" alt="img" /></p>
+
+<p>And some corresponding mobile screenshots:</p>
+
+<p><img src="http://farm9.staticflickr.com/8097/8431988489_e8190eef4f_z.jpg" alt="img" /></p>
+
+<p><img src="http://farm9.staticflickr.com/8464/8431989119_1f6748d41e_z.jpg" alt="img" /></p>
+
+<p>Now you can do everything with Chrome dev tools right on your mobile device! Yay!</p>
+
+<p><a href="https://developers.google.com/chrome-developer-tools/docs/remote-debugging">Google Original Article with more detailed instructions on how to set up connection between Desktop and mobile Chrome</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My Octopress Blog Is Now Live]]></title>
+    <link href="http://pashka4281.github.com/blog/2013/01/27/my-octopress-blog-is-now-live/"/>
+    <updated>2013-01-27T21:58:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2013/01/27/my-octopress-blog-is-now-live</id>
+    <content type="html"><![CDATA[<p>That’s it. New posts definitely will be more informative!</p>
+]]></content>
+  </entry>
+  
+</feed>

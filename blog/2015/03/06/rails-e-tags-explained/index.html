@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rails E-tags Explained - WebJournal</title>
+  <meta name="author" content="Paul Ser">
+
+  
+  <meta name="description" content="How E-tags works for caching and what can we do with them in Rails">
+  <meta name="keywords" content="E-tags, Rails, Ruby, Ruby on Rails, Caching, Pavlo Sirous">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="WebJournal" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='https://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+  
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-51542431-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">WebJournal</a></h1>
+  
+    <h2>My notes about Web Development, Computers, Cars and other tech stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About Me</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rails E-tags Explained</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-06T03:14:00+02:00" pubdate data-updated="true">Mar 6<span>th</span>, 2015</time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://pashka4281.github.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>E-tag is a part of HTTP 1.1 specification and basically a mechanism that helps implement browser caching.
+E-tag stands for “entity tag”. Let’s see how it works.</p>
+
+<p>When browser loads a page for a first time, server renders page’s HTML and also creates
+MD5 checksum of it which will be send back to browser via headers together with response body. </p>
+
+<p><img src="http://gdurl.com/E_Av" alt="img" /></p>
+
+<!-- More -->
+
+<p>So this is what approximately happening on server when it generates e-tag:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">require <span class="s1">&#39;digest/md5&#39;</span>
+</span><span class="line">headers<span class="o">[</span><span class="s1">&#39;ETag&#39;</span><span class="o">]</span> <span class="o">=</span> Digest::MD5.hexdigest<span class="o">(</span>response_body<span class="o">)</span>
+</span><span class="line"><span class="c"># =&gt; &quot;398b81ab9ecb91a32fee9146fe7b1846&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Next, browser receives server’s response, renders it and caches somewhere on the disk locally. Also it saves received e-tag.
+<img src="http://gdurl.com/MjK5" alt="img" /></p>
+
+<p>Now we decide to visit the same page again.
+<img src="http://gdurl.com/uGYc6" alt="img" /></p>
+
+<p>Browser sends e-tag that we got before (header containing it now called “If-None-Match”
+and this is a real mystery for me why they called it this way and not simply “e-tag”).
+On server side the page got rendered again but this time not immediately sent back to client,
+but instead e-tag of it being generated and compared with one received from browser.
+If they match response body will be empty and status will be 304 Not Modified.
+Browser in his turn when got 304 status, knows that nothing has changed on the page
+since last visit thus local cached version of it can be rendered instead.</p>
+
+<p>This way we reduce network usage when there is no need to send same information twice.
+But if you were attentive while reading above, you noticed that when we hit the page second time,
+server still renders the page before deciding if there were changes.
+In Rails there is a way to manually control generating etags on the server - <code>fresh_when</code> method
+(<a href="http://apidock.com/rails/ActionController/ConditionalGet/fresh_when">apidock reference</a>).
+It can take an active record object as an argument and a set of additional parameters. 
+Fresh_when method calls <code>.cache_key()</code> on a passed object, which is usually a
+combination of class name, <code>id</code> and <code>updated_at</code> columns (e.g. “posts/5-20071224150000”).
+Having this we can now improve generating etags on the server and prevent page rendering on each request. </p>
+
+<p>Consider this code example:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">class PostsController &lt; ApplicationController
+</span><span class="line">  def show
+</span><span class="line">    @post <span class="o">=</span> Post.find params<span class="o">[</span>:id<span class="o">]</span>
+</span><span class="line">    fresh_when<span class="o">(</span>@post<span class="o">)</span>
+</span><span class="line">  end
+</span><span class="line">end
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Instead of generating etag based on whole page’s html, we would use cache_key of @post. 
+If you want to add more information etag will be generated from, you can pass an array to fresh_when method.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">fresh_when<span class="o">([</span>@post, current_user.id<span class="o">])</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Or in a more declarative form:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">class PostsController &lt; ApplicationController
+</span><span class="line">  etag <span class="o">{</span> current_author.id <span class="o">}</span>
+</span><span class="line">  etag <span class="o">{</span> current_property.name <span class="o">}</span> <span class="c"># you can add even more then one</span>
+</span><span class="line">
+</span><span class="line">  def show
+</span><span class="line">    @post <span class="o">=</span> Post.find params<span class="o">[</span>:id<span class="o">]</span>
+</span><span class="line">    fresh_when<span class="o">(</span>@post<span class="o">)</span>
+</span><span class="line">  end
+</span><span class="line">end
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Paul Ser</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-06T03:14:00+02:00" pubdate data-updated="true">Mar 6<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/caching/'>Caching</a>, <a class='category' href='/blog/categories/e-tag/'>E-tag</a>, <a class='category' href='/blog/categories/http/'>HTTP</a>, <a class='category' href='/blog/categories/rails/'>Rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/" data-via="" data-counturl="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/01/10/commontime-tool/" title="Previous Post: Glad to present you 'CommonTime' tool (a free app that helps working with people from different timezones)">&laquo; Glad to present you 'CommonTime' tool (a free app that helps working with people from different timezones)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/06/ssh-port-forwarding-how-to/" title="Next Post: SSH port forwarding: how to?">SSH port forwarding: how to? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+  <aside class="sidebar">
+  
+    <form action="http://google.com/search" method="get">
+      <fieldset role="search">
+        <input type="hidden" name="cx" value="000020124828116625693:xngkxnpz5h0" /> <!-- Google Custom Search engine ID -->
+        <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+      </fieldset>
+    </form>
+  
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/05/06/ssh-port-forwarding-how-to/">SSH Port Forwarding: How To?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/06/rails-e-tags-explained/">Rails E-tags Explained</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/10/commontime-tool/">Glad to Present You 'CommonTime' Tool (a Free App That Helps Working With People From Different Timezones)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page/">Small T-rex Indie Game on Chrome's 'Cannot Connect Page'</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you/">Want to Embed Recommendations From Your LinkedIn Profile on Your Blog? This Small Application May Help You.</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/pashka4281">@pashka4281</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'pashka4281',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Paul Ser -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'pashka4281blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/';
+        var disqus_url = 'http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+
+
+</body>
+</html>

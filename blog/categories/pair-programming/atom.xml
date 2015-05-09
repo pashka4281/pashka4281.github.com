@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Pair Programming | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/pair-programming/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2015-05-08T17:40:40+03:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Paul Ser]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
+    <updated>2015-05-06T14:29:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
+    <content type="html"><![CDATA[<p>SSH port forwarding</p>
+
+<p>I guess everyone knows how to use SSH to connect local terminal to remote server.
+Often usage of ssh is limited to this. But ssh has some other cool features that can be very helpful sometimes. One of them is port forwarding.</p>
+
+<p>This days I often work on a development server doing some pair-programming.
+Once we neede to see what emails are going out from the rails app.
+When working locally I usually prefer to use letter_opener gem which opens a new tab in a browser with a preview of an email <a href="https://github.com/ryanb/letter_opener">https://github.com/ryanb/letter_opener</a>.
+But dev server doesn’t have any GUY so that’s we couldn’t use browser-based tools. That’s why decided to use something else, basically mailcatcher <a href="http://mailcatcher.me/">http://mailcatcher.me/</a>.
+Mailcatcher is an smtp server that provides http interface that shows all the outgoing emails. </p>
+
+<!-- More -->
+
+<p>Here’s where we’re getting closer to the post topic.
+The problem we faced is that mailcacher is running on port 1080 (sure this is configurable) which was apparently closed on the server thus making it impossible to access it’s admin panel.
+A good case for using ssh port worwarding.</p>
+
+<p><code>sh
+ssh -L 8000:localhost:1080 your.server.com
+</code></p>
+
+<p>This command forwards a port <code>1080</code> on <code>your.server.com</code> to port <code>8000</code> on your localhost,
+so now visiting <code>http://localhost:8000</code> will show you the content of something that is located on <code>http://your.server.com:1080</code> (mailcatcher web interface in our case). Yay! Problem solved!</p>
+
+<p>I have to add that previous command will also open a regular terminal remote session to your server and if you don’t need it, you can append another parameter <code>-N</code> to make it just forward a port:</p>
+
+<p><code>sh
+ssh -L 8000:localhost:1080 your.server.com -N
+</code></p>
+
+<p>Actually SSH has more interesting features you may like to learn about so here is a couple of resources that gonna help with that:</p>
+
+<ul>
+  <li><code>man ssh</code> (sure, that simple)</li>
+  <li><a href="https://help.ubuntu.com/community/SSH">https://help.ubuntu.com/community/SSH</a></li>
+  <li><a href="http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward">http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>
