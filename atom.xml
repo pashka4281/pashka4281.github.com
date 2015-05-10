@@ -4,7 +4,7 @@
   <title><![CDATA[WebJournal]]></title>
   <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-05-10T00:14:43+03:00</updated>
+  <updated>2015-05-10T09:49:18+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Paul Ser]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Who Wants to Pair Together With Me?]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me/"/>
+    <updated>2015-05-10T09:12:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me</id>
+    <content type="html"><![CDATA[<p><img src="http://gdurl.com/YVaA" alt="img" /></p>
+
+<p>This days I do lot’s of pair programming with my friend developer for projects we both work on. 
+This is really cool stuff that works great for small distributed teams. What does it do? It helps to improve quality of code, a lot.
+<!-- More -->
+Our usual stack looks like this:</p>
+
+<ul>
+  <li>VIM</li>
+  <li>Wemux</li>
+  <li>Pair server</li>
+  <li>SSH/Mosh</li>
+</ul>
+
+<p>Apart from work week I have some free time on weekend that I can spend to extend my own vision, looking at your way of thinking. 
+So let’s pair together on something.</p>
+
+<p>Drop a comment to arrange common available time (you can use this tool to do it in a fancy way heh 
+<a href="http://commontime.info/#{&quot;w&quot;:{&quot;st&quot;:17,&quot;et&quot;:19,&quot;z&quot;:40,&quot;e&quot;:&quot;pashka4281@gmail.com&quot;},&quot;c&quot;:{&quot;st&quot;:9,&quot;et&quot;:13,&quot;z&quot;:14,&quot;e&quot;:&quot;&quot;},&quot;f&quot;:&quot;24&quot;}">http://commontime.info/</a> ).</p>
+
+<p>**Attention!! Basic knowledge of vim required (at least moving around)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
