@@ -4,7 +4,7 @@ title: "ssh replacement: meet Mosh"
 date: 2014-11-12 15:43
 comments: true
 categories: [SSH, mosh, server administration]
-keywords: ssh, mosh, server administration, latency compensation, terminal, bash, unix, web development, Pavlo Sirous
+keywords: ssh, mosh, mosh ssh, mosh ipv6, mosh ios, mosh install, mosh install, mosh tunnel, mosh tutorial, mosh terminal, mosh tmux, mosh ubuntu, mosh vim, mosh requires a utf-8 locale, mosh ssh agent forwarding,mosh tunnel mosh osx, mosh on windows, mosh on centos, mosh reattach session, mosh reconnect to session, mosh reconnect, mosh reverse tunnel, mosh iptables, mosh linux, mosh locale, mosh mobile shell, server administration, latency compensation, terminal, bash, unix, web development, Pavlo Sirous
 description: "The alternative to ssh: meet Mosh - new remote terminal client. Pavlo Sirous blog."
 ---
 
