@@ -4,7 +4,7 @@
   <title><![CDATA[WebJournal]]></title>
   <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-05-21T09:38:24+03:00</updated>
+  <updated>2015-07-29T01:35:31+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Paul Ser]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Night Work + Eyes Safety = f.lux]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/07/29/night-work-plus-eyes-safety-equals-f-dot-lux/"/>
+    <updated>2015-07-29T00:52:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/07/29/night-work-plus-eyes-safety-equals-f-dot-lux</id>
+    <content type="html"><![CDATA[<p>Working a lot in front of monitor under bad lightning conditions (aka at night) is a HUGE problem. Especially for me since I usually have long working sessions at night time.</p>
+
+<p>Everyone knows what it ends up with: </p>
+
+<p><img src="http://gdurl.com/Q6E8/download" alt="img" /></p>
+
+<p>Among good ways to start improving your workplace’s is looking at software direction. 
+<!-- More --></p>
+
+<p>Doing that I discovered this neat small “f.lux” app for mac relatively a while ago. It’s main task is to adjust colors of your screen in the late time making them solarized and more “warm”. To make it work properly you need to set your location (this way the app will know the actual time of sunrize and sunset in your area) as well as your wake up time. 
+<img src="http://gdurl.com/B0gJ/download" alt="img" /></p>
+
+<p>And maybe playing with colors is totally unacceptable for graphic designers (graphic dedigner that works at night - already sounds suspicios, but who knows hehe), this approach works well for texts i.e. source codes.</p>
+
+<p>Thanks my friend Gordon D. for pointing me to this app.</p>
+
+<p>P.S. For a long run I’d strongly recommend to not be counting on any “magic app” but instead fix your schedule to eliminate late-time work.</p>
+
+<ul>
+  <li><a href="https://justgetflux.com/">https://justgetflux.com/</a></li>
+</ul>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Who Wants to Pair Together With Me?]]></title>
