@@ -3,7 +3,7 @@ layout: post
 title: "Night work + eyes safety = f.lux"
 date: 2015-07-29 00:52
 comments: true
-categories: [work safety, tools] 
+categories: [work safety, eyes, tools] 
 keywords: internet safety safe eyes, eyes safety rules, eyes safety tips, f.lux, mac os, osx, unix, web development, Pavlo Sirous, pavlosirous
 description: "How to keep your eyes in comform and safe by adjusting screen colors with f.lux"
 ---
@@ -22,7 +22,7 @@ Doing that I discovered this neat small "f.lux" app for mac relatively a while a
 
 And maybe playing with colors is totally unacceptable for graphic designers (graphic dedigner that works at night - already sounds suspicios, but who knows hehe), this approach works well for texts i.e. source codes.
 
-Thanks my friend Gordon D. for pointing me to this app.
+Thanks to my friend Gordon D. for pointing me to this app.
 
 P.S. For a long run I'd strongly recommend to not be counting on any "magic app" but instead fix your schedule to eliminate late-time work.
 
