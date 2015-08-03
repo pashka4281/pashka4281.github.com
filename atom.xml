@@ -4,7 +4,7 @@
   <title><![CDATA[WebJournal]]></title>
   <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-07-29T01:35:31+03:00</updated>
+  <updated>2015-08-03T15:44:54+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Paul Ser]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mysql Gem Float Rounding]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding/"/>
+    <updated>2015-08-03T14:41:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding</id>
+    <content type="html"><![CDATA[<p>Working on one of the old Rails app our team found a strange issue related to mysql float numbers.
+We basically upgrade the app to make it use rails 4 and rewrite whole bunch of legacy code alongside.
+A while ago we were working on part that deals with prices lists. There was a model called Pricelist 
+that had a float field to keep prices. Yeah, yeah I know, that’s wrong, but this is what we got, and
+even despite this, the part dealing with prices worked perfecly fine in old app.
+<!-- More --></p>
+
+<p>But then we came and wrote new code for pricelists. 
+And here is what we got. Instead of having numbers like this</p>
+
+<ul>
+  <li>4.35</li>
+  <li>3.5</li>
+  <li>8.15
+and so on</li>
+</ul>
+
+<p>we got their looong versions:</p>
+
+<ul>
+  <li>4.349859378954873</li>
+  <li>3.482404398085409</li>
+  <li>8.149983838430043</li>
+</ul>
+
+<p>First idea was that database contains values parsed from somewhere outside and old app just rounds them up before showing to the user.
+But there was no rounding code and as we disovered later those numbers were entered by hands, so no chanse that someone filled up 10 or so digits after period just to set price.</p>
+
+<p>Second idea was that our new app is doing something wrong, e.g. “unrounding” numbers from the database. We opened mysql console to see what exactly contained our database. </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="sh"><span class="line">mysql&gt; SELECT * FROM prices WHERE id IN<span class="o">(</span>316, 317, 318, 319, 320<span class="o">)</span>;
+</span><span class="line">+-------+------------+
+</span><span class="line">| id    | price    |
+</span><span class="line">+-------+------------+
+</span><span class="line">| 316 |       4.35 |
+</span><span class="line">| 317 |       3.32 |
+</span><span class="line">| 318 |       3.12 |
+</span><span class="line">| 319 |       3.02 |
+</span><span class="line">| 320 |       2.82 |
+</span><span class="line">+-------+------------+
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Hmmm, that meant that some sort of “unrounding” actually happens in rails. Cause data in mysql is correct, right?</p>
+
+<p>Something wrong was in this theory. How could Rails “unround” numbers? That would mean adding some random part to it? That seemd logicless to me so I got another assumption.
+What if mysql console lies, what if it doesn’t show actual data, but rounds it up instead?
+And this was a key to the problem. We found that mysql gem we installed for the new app worked in a different way compared to old app that was not even listed any gems in it’s Gemfile 
+(perhaps in those days mysql database support was embedded into rails).</p>
+
+<p>Simple switching from mysql to mysql2 helped in our case.</p>
+
+<p>So be carefull when dealing with float fields in mysql + rails, and of course never use floats for storing prices. There are many other much safer ways to do it.</p>
+
+<p>We also found a couple of mentions about exactly the same problem across net:</p>
+
+<ul>
+  <li><a href="http://stackoverflow.com/questions/23120584/why-does-mysql-round-floats-way-more-than-expected">http://stackoverflow.com/questions/23120584/why-does-mysql-round-floats-way-more-than-expected</a></li>
+  <li><a href="http://stackoverflow.com/questions/5411551/what-the-difference-between-mysql-and-mysql2-gem">http://stackoverflow.com/questions/5411551/what-the-difference-between-mysql-and-mysql2-gem</a></li>
+  <li><a href="https://github.com/rails/rails/issues/4549">https://github.com/rails/rails/issues/4549</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Night Work + Eyes Safety = f.lux]]></title>
@@ -32,7 +111,7 @@
 
 <p>And maybe playing with colors is totally unacceptable for graphic designers (graphic dedigner that works at night - already sounds suspicios, but who knows hehe), this approach works well for texts i.e. source codes.</p>
 
-<p>Thanks my friend Gordon D. for pointing me to this app.</p>
+<p>Thanks to my friend Gordon D. for pointing me to this app.</p>
 
 <p>P.S. For a long run I’d strongly recommend to not be counting on any “magic app” but instead fix your schedule to eliminate late-time work.</p>
 
