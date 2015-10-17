@@ -9,8 +9,8 @@
   <meta name="author" content="Paul Ser">
 
   
-  <meta name="description" content="Working as a freelancer has huge benefints over traditional office job for sure.
-Really. Think of it: you free to choose when to work, how to work, &hellip;">
+  <meta name="description" content="Mysql Replication setup manual This two tutorials helped me to solve several issues during setup, so strongly recommend:
+http://dev.mysql.com/doc/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +72,60 @@ Really. Think of it: you free to choose when to work, how to work, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/04/setting-up-mysql-replication-locally/">Setting Up Mysql Replication Locally</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T13:11:00+03:00" pubdate data-updated="true">Jul 4<span>th</span>, 2014</time>
+        
+           | <a href="/blog/2014/07/04/setting-up-mysql-replication-locally/#disqus_thread"
+             data-disqus-identifier="http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mysql Replication setup manual</p>
+
+<p>This two tutorials helped me to solve several issues during setup, so strongly recommend:
+http://dev.mysql.com/doc/refman/5.5/en/replication-howto-repuser.html
+http://scriptingmysql.wordpress.com/2013/02/21/mysql-replication-creating-a-new-masterslave-topology-with-or-without-virtual-machines/</p>
+
+<p>I decided to set up different mysql instances using virtualbox. So in my case I have:
+ * host machine with ubuntu 12.04, x64
+ * guest OS running inside virtualbox (same ubuntu 12.04, but 32 bit) Networking using bridge
+Both running mysql 5.5
+master is on host machine, slave - on virtual one.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/07/04/setting-up-mysql-replication-locally/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -404,6 +458,10 @@ What I want to discuss is the situation when you already have several years of f
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/10/17/das-keyboard-4c-profesional-review/">A Post About Mechanical Keyboards | Das Keyboard 4c Professional Review</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/08/03/mysql-gem-float-rounding/">Mysql Gem Float Rounding</a>
       </li>
     
@@ -417,10 +475,6 @@ What I want to discuss is the situation when you already have several years of f
     
       <li class="post">
         <a href="/blog/2015/05/06/ssh-port-forwarding-how-to/">SSH Port Forwarding: How To?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/06/rails-e-tags-explained/">Rails E-tags Explained</a>
       </li>
     
   </ul>
