@@ -5,7 +5,7 @@ date: 2015-10-17 21:35
 comments: true
 categories: [mechanical keyboards, working space, Das Keyboard] 
 keywords: keyboard, keyboards, das keyboard, das keyboard 4c professional, das 4c professional, das 4c pro, review, das keyboard review, das 4c professional review, ducky YOTH, vortex pok3r, Pavlo Sirous
-description: "Float rounding issues in Mysql + Rails when using mysql gem."
+description: "Mechanical keyboards and their great representative - das 4c professional review"
 ---
 
 
