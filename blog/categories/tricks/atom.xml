@@ -4,10 +4,10 @@
   <title><![CDATA[Category: Tricks | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/tricks/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-10-17T21:34:51+03:00</updated>
+  <updated>2015-10-20T23:53:45+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
-    <name><![CDATA[Paul Ser]]></name>
+    <name><![CDATA[Pavlo Sirous]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -18,7 +18,7 @@
     <link href="http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page/"/>
     <updated>2014-12-22T17:52:00+02:00</updated>
     <id>http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page</id>
-    <content type="html"><![CDATA[<script src="/javascripts/posts_specific/t-rex-dino-chrome-game.js"></script>
+    <content type="html"><![CDATA[<script src="{{ root_url }}/javascripts/posts_specific/t-rex-dino-chrome-game.js"></script>
 
 <style>
   body.no-scroll{ overflow-y: hidden; }

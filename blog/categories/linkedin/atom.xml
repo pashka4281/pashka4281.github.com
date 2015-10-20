@@ -4,10 +4,10 @@
   <title><![CDATA[Category: LinkedIn | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/linkedin/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2015-10-17T21:34:51+03:00</updated>
+  <updated>2015-10-20T23:53:45+03:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
-    <name><![CDATA[Paul Ser]]></name>
+    <name><![CDATA[Pavlo Sirous]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -18,7 +18,7 @@
     <link href="http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you/"/>
     <updated>2014-11-16T16:40:00+02:00</updated>
     <id>http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you</id>
-    <content type="html"><![CDATA[<script src="/javascripts/posts_specific/linked_in_recommendations.js"></script>
+    <content type="html"><![CDATA[<script src="{{ root_url }}/javascripts/posts_specific/linked_in_recommendations.js"></script>
 
 <script type="text/javascript" src="http://platform.linkedin.com/in.js"> 
   api_key: 77x6e890qzbfth
