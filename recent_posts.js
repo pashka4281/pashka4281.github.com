@@ -12,6 +12,20 @@ var posts = [];
 
 
 
+  posts.push({ link: "/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js/", title: "How to host a static website using Amazon S3 and gulp.js", date: "Jan 11<span>th</span>, 2016" });
+
+
+
+
+
+
+
+
+
+  
+
+
+
   posts.push({ link: "/blog/2015/10/17/das-keyboard-4c-profesional-review/", title: "A post about mechanical keyboards | Das Keyboard 4c professional review", date: "Oct 17<span>th</span>, 2015" });
 
 
@@ -55,19 +69,5 @@ var posts = [];
 
 
   posts.push({ link: "/blog/2015/05/10/who-wants-to-pair-together-with-me/", title: "Who wants to pair together with me?", date: "May 10<span>th</span>, 2015" });
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  posts.push({ link: "/blog/2015/05/06/ssh-port-forwarding-how-to/", title: "SSH port forwarding: how to?", date: "May 6<span>th</span>, 2015" });
 
 recentPostsCallback(posts);

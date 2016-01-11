@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Gulp | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/gulp/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2016-01-11T22:06:03+02:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Pavlo Sirous]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Host a Static Website Using Amazon S3 and gulp.js]]></title>
+    <link href="http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js/"/>
+    <updated>2016-01-11T21:04:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js</id>
+    <content type="html"><![CDATA[<p>Hosting website could be tricky. No seriously, there are tons of “plug and play” hosting solutions for Rails, PHP, Node etc like Heroku or EngineYard or even Digital Ocean. But when it comes to a regular static html website there are nothing even close to that variety. I was looking some place to put my pasvlosirous.com into. And didn’t find literally anything interesting. Just nothing at all. Some of the services asks 8 bucks for static html hosting. 8 bucks Carl!
+Suddenly I realized that I already know the service I was looking for. It’s Amazon S3. Yeah, why not? Powerful, cheap and fast - exactly what I need. Accordingly to their <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">docs</a> s3 can handle up to 800 requests per second (or even more if there is a need). Maybe not so impressive if you own something like twitter but more then enough for our needs. Just left to figure out a simple way to compress stylesheets/javascripts, minify and gzip html and put all that crap on our s3 bucket - in other words we need a simple way to deploy our website. Ideally to have single command that will do all necessary things.</p>
+
+<!-- More -->
+<p>Here is where it comes to Gulp.js. Gulp is a javascript tasks runner. Just like Make or Rake but for JS. And it has all the required plugins we need including plugins for publishing files to S3. Check it out http://gulpjs.com/plugins/.</p>
+
+<p>To start using gulp you would need to create a gulpfile.js in the root of your website’s folder. Besides that I have created a file to keep my aws credentials - aws.json.
+<img src="http://gdurl.com/nJ81" alt="img" /></p>
+
+<p><div><script src='https://gist.github.com/3e65bc999371f9a31758.js?file=gulpfile.js'></script>
+<noscript><pre><code>var gulp       = require(&#39;gulp&#39;);
+var fs         = require(&quot;fs&quot;);
+var gzip       = require(&#39;gulp-gzip&#39;);
+var minifyCss  = require(&#39;gulp-minify-css&#39;);
+var awspublish = require(&#39;gulp-awspublish&#39;);
+var minifyHTML = require(&#39;gulp-minify-html&#39;);
+
+aws = JSON.parse(fs.readFileSync(&#39;./aws.json&#39;)); // reading aws config file
+var publisher = awspublish.create(aws);
+ 
+// defining single task with name &quot;deploy&quot;
+gulp.task(&#39;deploy&#39;, function() {
+  gulp.src(&#39;./app/**&#39;).pipe(gulp.dest(&#39;./dist&#39;));
+  
+  //minifying css
+  gulp.src(&#39;./dist/*.css&#39;)
+    .pipe(minifyCss({compatibility: &#39;ie8&#39;}))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+
+  //gzipping css
+  gulp.src(&#39;./dist/*.css&#39;)
+    .pipe(awspublish.gzip({ ext: &#39;.gz&#39; }))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+  
+  //minifying html
+  gulp.src(&#39;./dist/*.html&#39;)
+    .pipe(minifyHTML({ conditionals: true, spare:true}))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+
+  var headers = { &#39;Cache-Control&#39;: &#39;max-age=315360000, no-transform, public&#39; };
+
+  // push all the contents of ./dist folder to s3
+  gulp.src(&#39;./dist/**&#39;)
+    .pipe(publisher.publish(headers))
+    .pipe(publisher.sync())
+    .pipe(awspublish.reporter());
+
+})</code></pre></noscript></div>
+</p>
+
+<p>Here we simply create a singe gulp task that utilizes all of the plugins we required before.
+So now to deploy you simply call <code>&gt; gulp deploy</code> and wait untill it finishes.</p>
+
+<p>Btw, need to say that I tried several s3 plugins before found one that I was able to set up and run properly. Other ones were just too complicated or broken, fortunately there are tons of plugins so if one didn’t work you can always find another one.</p>
+]]></content>
+  </entry>
+  
+</feed>
