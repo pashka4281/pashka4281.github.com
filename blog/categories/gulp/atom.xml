@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Gulp | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/gulp/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2017-01-14T15:00:29-05:00</updated>
+  <updated>2017-01-14T15:02:19-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -28,7 +28,7 @@ Suddenly I realized that I already know the service I was looking for. It’s Am
 <img src="http://gdurl.com/nJ81" alt="img" /></p>
 
 <p><div><script src='https://gist.github.com/31758.js?file=gulpfile.js'></script>
-<noscript><pre><code>Not Found</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 
 <p>Here we simply create a singe gulp task that utilizes all of the plugins we required before.
