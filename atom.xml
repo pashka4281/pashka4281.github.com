@@ -4,7 +4,7 @@
   <title><![CDATA[WebJournal]]></title>
   <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2017-01-14T15:02:19-05:00</updated>
+  <updated>2017-01-14T15:07:15-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -43,8 +43,45 @@ Suddenly I realized that I already know the service I was looking for. It’s Am
 <p>To start using gulp you would need to create a gulpfile.js in the root of your website’s folder. Besides that I have created a file to keep my aws credentials - aws.json.
 <img src="http://gdurl.com/nJ81" alt="img" /></p>
 
-<div><script src="https://gist.github.com/31758.js?file=gulpfile.js"></script>
-<noscript><pre><code></code></pre></noscript></div>
+<div><script src="https://gist.github.com/3e65bc999371f9a31758.js?file=gulpfile.js"></script>
+<noscript><pre><code>var gulp       = require(&#39;gulp&#39;);
+var fs         = require(&quot;fs&quot;);
+var gzip       = require(&#39;gulp-gzip&#39;);
+var minifyCss  = require(&#39;gulp-minify-css&#39;);
+var awspublish = require(&#39;gulp-awspublish&#39;);
+var minifyHTML = require(&#39;gulp-minify-html&#39;);
+
+aws = JSON.parse(fs.readFileSync(&#39;./aws.json&#39;)); // reading aws config file
+var publisher = awspublish.create(aws);
+ 
+// defining single task with name &quot;deploy&quot;
+gulp.task(&#39;deploy&#39;, function() {
+  gulp.src(&#39;./app/**&#39;).pipe(gulp.dest(&#39;./dist&#39;));
+  
+  //minifying css
+  gulp.src(&#39;./dist/*.css&#39;)
+    .pipe(minifyCss({compatibility: &#39;ie8&#39;}))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+
+  //gzipping css
+  gulp.src(&#39;./dist/*.css&#39;)
+    .pipe(awspublish.gzip({ ext: &#39;.gz&#39; }))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+  
+  //minifying html
+  gulp.src(&#39;./dist/*.html&#39;)
+    .pipe(minifyHTML({ conditionals: true, spare:true}))
+    .pipe(gulp.dest(&#39;./dist&#39;));
+
+  var headers = { &#39;Cache-Control&#39;: &#39;max-age=315360000, no-transform, public&#39; };
+
+  // push all the contents of ./dist folder to s3
+  gulp.src(&#39;./dist/**&#39;)
+    .pipe(publisher.publish(headers))
+    .pipe(publisher.sync())
+    .pipe(awspublish.reporter());
+
+})</code></pre></noscript></div>
 
 <p>Here we simply create a singe gulp task that utilizes all of the plugins we required before.
 So now to deploy you simply call <code>&gt; gulp deploy</code> and wait untill it finishes.</p>
