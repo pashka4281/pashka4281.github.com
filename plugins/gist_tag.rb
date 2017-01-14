@@ -3,7 +3,7 @@
 # Source URL: https://gist.github.com/1027674
 # Post http://brandontilley.com/2011/01/31/gist-tag-for-jekyll.html
 #
-# Example usage: {% gist 1027674 gist_tag.rb %} //embeds a gist for this plugin
+# Example usage: {% gist 1027674 gist_tag.rb username %} //embeds a gist for this plugin
 
 require 'cgi'
 require 'digest/md5'
@@ -21,10 +21,10 @@ module Jekyll
     end
 
     def render(context)
-      if parts = @text.strip.match(/([\d]*) (.*) (.*)/)
-        gist, file, username = parts[1].strip, parts[2].strip, parts[3].strip
+      if parts = @text.match(/(\S*) (\S*) (\S*)/)
+        gist, file, github_user = parts[1].strip, parts[2].strip, parts[3].strip
         script_url = script_url_for gist, file
-        code       = get_cached_gist(gist, file) || get_gist_from_web(gist, file, username)
+        code       = get_cached_gist(gist, file) || get_gist_from_web(github_user, gist, file)
         html_output_for script_url, code
       else
         ""
@@ -45,8 +45,8 @@ module Jekyll
       url
     end
 
-    def get_gist_url_for(gist, file, username)
-      "https://gist.github.com/#{username}/#{gist}/raw/#{file}"
+    def get_gist_url_for(github_user, gist, file)
+      "https://gist.githubusercontent.com/#{github_user}/#{gist}/raw/#{ file }"
     end
 
     def cache(gist, file, data)
@@ -70,8 +70,8 @@ module Jekyll
       File.join @cache_folder, "#{gist}-#{file}-#{md5}.cache"
     end
 
-    def get_gist_from_web(gist, file, username)
-      gist_url          = get_gist_url_for gist, file, username
+    def get_gist_from_web(github_user, gist, file)
+      gist_url          = get_gist_url_for github_user, gist, file
       raw_uri           = URI.parse gist_url
       proxy             = ENV['http_proxy']
       if proxy
