@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Server Administration | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/server-administration/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2016-01-11T22:06:03+02:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Pavlo Sirous]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
+    <updated>2014-11-12T15:43:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
+    <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
+And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.
+I think you know some “dropped” issues or “timed-out” issues especially when you have unstable internet connection. Rick Cogley has recently posted 
+<a href="http://rick.cogley.info/articles/2013/12/14/keeping-ssh-alive/">some workarounds</a> to fix ssh. </p>
+
+<!-- more -->
+
+<h5 id="any-solution">Any solution?</h5>
+<p>So in my turn I wanted to present another tool called <a href="https://github.com/keithw/mosh">Mosh</a>.
+<img src="http://gdurl.com/7jVw" alt="img" />
+Mosh is an alternative remote terminal client that has some great benefits over ssh.</p>
+
+<ul>
+  <li>
+    <p>First and the most important for me - it has no problems with connection.
+At least I haven’t noticed a one for time I use it. Even when you leaved your
+remote session inactive for many hours, or temporarily lost internet connection.</p>
+  </li>
+  <li>
+    <p>Second - is it’s speed. Mosh has some kind of latency compensation. 
+When you types symbols displays immediately after you pressed button and the same time
+they begin being sent to the server. When you quickly types on a low-speed connection you
+could notice how it works: </p>
+
+    <p><img src="http://gdurl.com/2tos" alt="img" /></p>
+
+    <p>Underlined characters means that mosh client has not yet got a confirmation from the server about accepting those letters. When it is done, underlines are removed.</p>
+  </li>
+</ul>
+
+<p>It has more cool features like correct that you can read about on <a href="https://mosh.mit.edu/">official docs page</a>.
+Even more, there is an <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">android client</a> for true hackers that do things on the go :)</p>
+
+<p>One serious limitation I think is the need to install additional packages both on client and server while you get ssh out of the box on most operating systems. </p>
+]]></content>
+  </entry>
+  
+</feed>

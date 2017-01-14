@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SSH | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2016-01-11T22:06:03+02:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Pavlo Sirous]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Who Wants to Pair Together With Me?]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me/"/>
+    <updated>2015-05-10T09:12:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me</id>
+    <content type="html"><![CDATA[<p><img src="http://gdurl.com/YVaA" alt="img" /></p>
+
+<p>This days I do lot’s of pair programming with my friend developer for projects we both work on. 
+This is really cool stuff that works great for small distributed teams. What does it do? It helps to improve quality of code, a lot.
+<!-- More -->
+Our usual stack looks like this:</p>
+
+<ul>
+  <li>VIM</li>
+  <li>Wemux</li>
+  <li>Pair server</li>
+  <li>SSH/Mosh</li>
+</ul>
+
+<p>Apart from work week I have some free time on weekend that I can spend to extend my own vision, looking at your way of thinking. 
+So let’s pair together on something.</p>
+
+<p>Drop a comment to arrange common available time (you can use this tool to do it in a fancy way heh 
+<a href="http://commontime.info/#{&quot;w&quot;:{&quot;st&quot;:17,&quot;et&quot;:19,&quot;z&quot;:40,&quot;e&quot;:&quot;pashka4281@gmail.com&quot;},&quot;c&quot;:{&quot;st&quot;:9,&quot;et&quot;:13,&quot;z&quot;:14,&quot;e&quot;:&quot;&quot;},&quot;f&quot;:&quot;24&quot;}">http://commontime.info/</a> ).</p>
+
+<p>**Attention!! Basic knowledge of vim required (at least moving around)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
+    <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
+    <updated>2015-05-06T14:29:00+03:00</updated>
+    <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
+    <content type="html"><![CDATA[<p><img src="http://gdurl.com/lIxw" alt="img" /></p>
+
+<p>I guess everyone knows how to use SSH to connect local terminal to remote server.
+Often usage of ssh is limited to this. But ssh has some other cool features that can be very helpful sometimes. One of them is port forwarding.</p>
+
+<p>This days I often work on a development server doing some pair-programming.
+Once we neede to see what emails are going out from the rails app.
+When working locally I usually prefer to use letter_opener gem which opens a new tab in a browser with a preview of an email <a href="https://github.com/ryanb/letter_opener">https://github.com/ryanb/letter_opener</a>.
+But dev server doesn’t have any GUY so that’s we couldn’t use browser-based tools. That’s why decided to use something else, basically mailcatcher <a href="http://mailcatcher.me/">http://mailcatcher.me/</a>.
+Mailcatcher is an smtp server that provides http interface that shows all the outgoing emails. </p>
+
+<!-- More -->
+
+<p>Here’s where we’re getting closer to the post topic.
+The problem we faced is that mailcacher is running on port 1080 (sure this is configurable) which was apparently closed on the server thus making it impossible to access it’s admin panel.
+A good case for using ssh port worwarding.</p>
+
+<p><code>sh
+ssh -L 8000:localhost:1080 your.server.com
+</code></p>
+
+<p>This command forwards a port <code>1080</code> on <code>your.server.com</code> to port <code>8000</code> on your localhost,
+so now visiting <code>http://localhost:8000</code> will show you the content of something that is located on <code>http://your.server.com:1080</code> (mailcatcher web interface in our case). Yay! Problem solved!</p>
+
+<p>I have to add that previous command will also open a regular terminal remote session to your server and if you don’t need it, you can append another parameter <code>-N</code> to make it just forward a port:</p>
+
+<p><code>sh
+ssh -L 8000:localhost:1080 your.server.com -N
+</code></p>
+
+<p>Actually SSH has more interesting features you may like to learn about so here is a couple of resources that gonna help with that:</p>
+
+<ul>
+  <li><code>man ssh</code> (sure, that simple)</li>
+  <li><a href="https://help.ubuntu.com/community/SSH">https://help.ubuntu.com/community/SSH</a></li>
+  <li><a href="http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward">http://ubuntuguide.org/wiki/Using_SSH_to_Port_Forward</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
+    <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
+    <updated>2014-11-12T15:43:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
+    <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
+And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.
+I think you know some “dropped” issues or “timed-out” issues especially when you have unstable internet connection. Rick Cogley has recently posted 
+<a href="http://rick.cogley.info/articles/2013/12/14/keeping-ssh-alive/">some workarounds</a> to fix ssh. </p>
+
+<!-- more -->
+
+<h5 id="any-solution">Any solution?</h5>
+<p>So in my turn I wanted to present another tool called <a href="https://github.com/keithw/mosh">Mosh</a>.
+<img src="http://gdurl.com/7jVw" alt="img" />
+Mosh is an alternative remote terminal client that has some great benefits over ssh.</p>
+
+<ul>
+  <li>
+    <p>First and the most important for me - it has no problems with connection.
+At least I haven’t noticed a one for time I use it. Even when you leaved your
+remote session inactive for many hours, or temporarily lost internet connection.</p>
+  </li>
+  <li>
+    <p>Second - is it’s speed. Mosh has some kind of latency compensation. 
+When you types symbols displays immediately after you pressed button and the same time
+they begin being sent to the server. When you quickly types on a low-speed connection you
+could notice how it works: </p>
+
+    <p><img src="http://gdurl.com/2tos" alt="img" /></p>
+
+    <p>Underlined characters means that mosh client has not yet got a confirmation from the server about accepting those letters. When it is done, underlines are removed.</p>
+  </li>
+</ul>
+
+<p>It has more cool features like correct that you can read about on <a href="https://mosh.mit.edu/">official docs page</a>.
+Even more, there is an <a href="https://play.google.com/store/apps/details?id=com.sonelli.juicessh">android client</a> for true hackers that do things on the go :)</p>
+
+<p>One serious limitation I think is the need to install additional packages both on client and server while you get ssh out of the box on most operating systems. </p>
+]]></content>
+  </entry>
+  
+</feed>

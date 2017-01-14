@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Development | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/development/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2016-01-11T22:06:03+02:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Pavlo Sirous]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Debugging Web Application Directly on Your Android Device]]></title>
+    <link href="http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device/"/>
+    <updated>2013-01-31T17:17:00+02:00</updated>
+    <id>http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device</id>
+    <content type="html"><![CDATA[<p>If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:</p>
+
+<ul>
+  <li>Obviously, you’ll need an android device you’re going to test on (preferably Android 3.2 and higher)</li>
+  <li>Android SDK installed</li>
+  <li>Both desktop and mobile should run Google Chrome Browser (Chrome beta is also supported)</li>
+  <li>USB cable</li>
+</ul>
+
+<!-- more -->
+<p>At first, download Android SDK from <a href="http://developer.android.com/sdk/index.html">official site</a> 
+then extract it’s content. I use Ubuntu and in my case SDK is located inside of ‘bin’ folder, 
+right under ‘home’ foler: <code>~/bin/adt-bundle-linux-x86_64/</code>. </p>
+
+<p>When you have SDK installed, connect your mobile device using USB cable to your desktop. 
+But first you need to enable USB debugging on your mobile device, both in Chrome and system settings. 
+Once you did it, you need to make sure your device is correctly detected, run “adb” tool for that: <br />
+<code>~$ cd ~/bin/adt-bundle-linux-x86_64/sdk/platform-tools</code> <br />
+<code>~$ ./adb devices</code></p>
+
+<p>You’ll get output similar to this:</p>
+
+<blockquote>
+  <p>List of devices attached <br />
+  4df1f0377f5f8fc7    device</p>
+</blockquote>
+
+<p>So we can see device is listed correctly. Next, enable port forwarding by running this command: <br />
+<code>./adb forward tcp:9222 localabstract:chrome_devtools_remote</code></p>
+
+<p>This should yield some output, but in my case it showed nothing.
+Now it’s time for most interesting! Open Chrome both on Android device and on desktop. 
+Follow your desktop browser to this URL <code>http://localhost:9222/</code> and’re going to see the 
+list of opened tabs on your mobile device:</p>
+
+<p><img src="http://farm9.staticflickr.com/8492/8431975033_2fbe3d65fd_z.jpg" alt="img" /></p>
+
+<p>After you have choose one you’ll see usual chrome developer tools window:</p>
+
+<p><img src="http://farm9.staticflickr.com/8217/8431995941_0a6485bb3f_z.jpg" alt="img" /></p>
+
+<p>And some corresponding mobile screenshots:</p>
+
+<p><img src="http://farm9.staticflickr.com/8097/8431988489_e8190eef4f_z.jpg" alt="img" /></p>
+
+<p><img src="http://farm9.staticflickr.com/8464/8431989119_1f6748d41e_z.jpg" alt="img" /></p>
+
+<p>Now you can do everything with Chrome dev tools right on your mobile device! Yay!</p>
+
+<p><a href="https://developers.google.com/chrome-developer-tools/docs/remote-debugging">Google Original Article with more detailed instructions on how to set up connection between Desktop and mobile Chrome</a></p>
+]]></content>
+  </entry>
+  
+</feed>
