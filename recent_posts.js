@@ -12,7 +12,7 @@ var posts = [];
 
 
 
-  posts.push({ link: "/blog/2016/01/11/updates-for-2016/", title: "2016 summary", date: "Jan 11<span>th</span>, 2016" });
+  posts.push({ link: "/blog/2017/01/14/updates-for-2016/", title: "2016 summary", date: "Jan 14<span>th</span>, 2017" });
 
 
 

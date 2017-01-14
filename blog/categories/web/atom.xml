@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2017-01-14T14:16:29-05:00</updated>
+  <updated>2017-01-14T14:54:45-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[2016 Summary]]></title>
-    <link href="http://pashka4281.github.com/blog/2016/01/11/updates-for-2016/"/>
-    <updated>2016-01-11T21:04:00-05:00</updated>
-    <id>http://pashka4281.github.com/blog/2016/01/11/updates-for-2016</id>
+    <link href="http://pashka4281.github.com/blog/2017/01/14/updates-for-2016/"/>
+    <updated>2017-01-14T14:24:00-05:00</updated>
+    <id>http://pashka4281.github.com/blog/2017/01/14/updates-for-2016</id>
     <content type="html"><![CDATA[<p>Hey everybody. Since 2016 is now officially over I can finally more or less summurise how it went. Overall it’s been a hussle for me from the very begginning. It all started from taking a decicion to move to Canada and most of the endavours during the year were pointed towards that goal. That included finishing my freelance activity and searching for a “normal” (as most people will agree) in-office job. Well from my current viewpoint I can say that it turned to be a very refreshing and new experience for me. So now I reside in the city of immigrants - Toronto enjoying mostly snowless winter and people who always say “sorry” :). There is a lot I can say about relocating process, worth a <a href="https://sirousblog.wordpress.com/">separate blog about travelling which I actually have here</a> (unfortunately not in English).
 <!-- More --></p>
 
@@ -43,45 +43,8 @@ Suddenly I realized that I already know the service I was looking for. It’s Am
 <p>To start using gulp you would need to create a gulpfile.js in the root of your website’s folder. Besides that I have created a file to keep my aws credentials - aws.json.
 <img src="http://gdurl.com/nJ81" alt="img" /></p>
 
-<p><div><script src='https://gist.github.com/3e65bc999371f9a31758.js?file=gulpfile.js'></script>
-<noscript><pre><code>var gulp       = require(&#39;gulp&#39;);
-var fs         = require(&quot;fs&quot;);
-var gzip       = require(&#39;gulp-gzip&#39;);
-var minifyCss  = require(&#39;gulp-minify-css&#39;);
-var awspublish = require(&#39;gulp-awspublish&#39;);
-var minifyHTML = require(&#39;gulp-minify-html&#39;);
-
-aws = JSON.parse(fs.readFileSync(&#39;./aws.json&#39;)); // reading aws config file
-var publisher = awspublish.create(aws);
- 
-// defining single task with name &quot;deploy&quot;
-gulp.task(&#39;deploy&#39;, function() {
-  gulp.src(&#39;./app/**&#39;).pipe(gulp.dest(&#39;./dist&#39;));
-  
-  //minifying css
-  gulp.src(&#39;./dist/*.css&#39;)
-    .pipe(minifyCss({compatibility: &#39;ie8&#39;}))
-    .pipe(gulp.dest(&#39;./dist&#39;));
-
-  //gzipping css
-  gulp.src(&#39;./dist/*.css&#39;)
-    .pipe(awspublish.gzip({ ext: &#39;.gz&#39; }))
-    .pipe(gulp.dest(&#39;./dist&#39;));
-  
-  //minifying html
-  gulp.src(&#39;./dist/*.html&#39;)
-    .pipe(minifyHTML({ conditionals: true, spare:true}))
-    .pipe(gulp.dest(&#39;./dist&#39;));
-
-  var headers = { &#39;Cache-Control&#39;: &#39;max-age=315360000, no-transform, public&#39; };
-
-  // push all the contents of ./dist folder to s3
-  gulp.src(&#39;./dist/**&#39;)
-    .pipe(publisher.publish(headers))
-    .pipe(publisher.sync())
-    .pipe(awspublish.reporter());
-
-})</code></pre></noscript></div>
+<p><div><script src='https://gist.github.com/31758.js?file=gulpfile.js'></script>
+<noscript><pre><code>Not Found</code></pre></noscript></div>
 </p>
 
 <p>Here we simply create a singe gulp task that utilizes all of the plugins we required before.
