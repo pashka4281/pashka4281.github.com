@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ubuntu | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/ubuntu/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Node JS Ecosystem From Rails Developer Perspective - Part1]]></title>
     <link href="http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1/"/>
-    <updated>2014-06-01T04:50:00+03:00</updated>
+    <updated>2014-06-01T04:50:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1</id>
     <content type="html"><![CDATA[<p>That was a rainy night of Saturday when I was sitting down and reading some blog I found a notice about Node. Yay, now I know how to spend rest of the eve - I thought :)</p>
 
@@ -229,7 +229,7 @@ Questions are really welcome :)</p>
   <entry>
     <title type="html"><![CDATA[Debugging Web Application Directly on Your Android Device]]></title>
     <link href="http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device/"/>
-    <updated>2013-01-31T17:17:00+02:00</updated>
+    <updated>2013-01-31T17:17:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device</id>
     <content type="html"><![CDATA[<p>If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:</p>
 

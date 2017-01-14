@@ -4,7 +4,7 @@
   <title><![CDATA[Category: E-tag | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/e-tag/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Rails E-tags Explained]]></title>
     <link href="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/"/>
-    <updated>2015-03-06T03:14:00+02:00</updated>
+    <updated>2015-03-06T03:14:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained</id>
     <content type="html"><![CDATA[<p>E-tag is a part of HTTP 1.1 specification and basically a mechanism that helps implement browser caching.
 E-tag stands for “entity tag”. Let’s see how it works.</p>

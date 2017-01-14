@@ -4,7 +4,7 @@
   <title><![CDATA[WebJournal]]></title>
   <link href="http://pashka4281.github.com/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -14,9 +14,25 @@
 
   
   <entry>
+    <title type="html"><![CDATA[2016 Summary]]></title>
+    <link href="http://pashka4281.github.com/blog/2016/01/11/updates-for-2016/"/>
+    <updated>2016-01-11T21:04:00-05:00</updated>
+    <id>http://pashka4281.github.com/blog/2016/01/11/updates-for-2016</id>
+    <content type="html"><![CDATA[<p>Hey everybody. Since 2016 is now officially over I can finally more or less summurise how it went. Overall it’s been a hussle for me from the very begginning. It all started from taking a decicion to move to Canada and most of the endavours during the year were pointed towards that goal. That included finishing my freelance activity and searching for a “normal” (as most people will agree) in-office job. Well from my current viewpoint I can say that it turned to be a very refreshing and new experience for me. So now I reside in the city of immigrants - Toronto enjoying mostly snowless winter and people who always say “sorry” :). There is a lot I can say about relocating process, worth a <a href="https://sirousblog.wordpress.com/">separate blog about travelling which I actually have here</a> (unfortunately not in English).
+<!-- More --></p>
+
+<p>Keeping talking about 2016 updates, the most noticable move in my developer career (not counting freelance =&gt; office switch) is wrapping up Rails &amp; Ruby development in favour of Meteor.js/Node ecosystem. Well to be honest, when I first encountered Meteor it was still in a very fetus state but even then I undesrtood that this aligns with my imagination of future web development more than what Rails proposes. So I was just patiantely waiting while Meteor gains stability and matureness required to be called a production ready framework. And the guys behind it did a great job to make it happen. </p>
+
+<p>Therefore the was a tipping point in 2016 and most of the year I devoted to JS development and turned a few mate Rails devs into Meteor devs as well btw. What can I say about it, every Rails dev retooled into Meteor.js keep saying the same story: when I first tried meteor it was the same exciting experience as happened to me when I first tried rails after PHP/.NET/whatever. And I’m absolutely all for these words!</p>
+
+<p>To sum up everything above, I’m turning the next page in my life and I’m very excited to see where it’s going to lead me to.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[How to Host a Static Website Using Amazon S3 and gulp.js]]></title>
     <link href="http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js/"/>
-    <updated>2016-01-11T21:04:00+02:00</updated>
+    <updated>2016-01-11T21:04:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js</id>
     <content type="html"><![CDATA[<p>Hosting website could be tricky. No seriously, there are tons of “plug and play” hosting solutions for Rails, PHP, Node etc like Heroku or EngineYard or even Digital Ocean. But when it comes to a regular static html website there are nothing even close to that variety. I was looking some place to put my pasvlosirous.com into. And didn’t find literally anything interesting. Just nothing at all. Some of the services asks 8 bucks for static html hosting. 8 bucks Carl!
 Suddenly I realized that I already know the service I was looking for. It’s Amazon S3. Yeah, why not? Powerful, cheap and fast - exactly what I need. Accordingly to their <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">docs</a> s3 can handle up to 800 requests per second (or even more if there is a need). Maybe not so impressive if you own something like twitter but more then enough for our needs. Just left to figure out a simple way to compress stylesheets/javascripts, minify and gzip html and put all that crap on our s3 bucket - in other words we need a simple way to deploy our website. Ideally to have single command that will do all necessary things.</p>
@@ -77,7 +93,7 @@ So now to deploy you simply call <code>&gt; gulp deploy</code> and wait untill i
   <entry>
     <title type="html"><![CDATA[A Post About Mechanical Keyboards | Das Keyboard 4c Professional Review]]></title>
     <link href="http://pashka4281.github.com/blog/2015/10/17/das-keyboard-4c-profesional-review/"/>
-    <updated>2015-10-17T21:35:00+03:00</updated>
+    <updated>2015-10-17T21:35:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/10/17/das-keyboard-4c-profesional-review</id>
     <content type="html"><![CDATA[<table>
   <tbody>
@@ -149,7 +165,7 @@ It’s kept in place by magnets:
   <entry>
     <title type="html"><![CDATA[Mysql Gem Float Rounding]]></title>
     <link href="http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding/"/>
-    <updated>2015-08-03T14:41:00+03:00</updated>
+    <updated>2015-08-03T14:41:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding</id>
     <content type="html"><![CDATA[<p>Working on one of the old Rails app our team found a strange issue related to mysql float numbers.
 We basically upgrade the app to make it use rails 4 and rewrite whole bunch of legacy code alongside.
@@ -228,7 +244,7 @@ And this was a key to the problem. We found that mysql gem we installed for the 
   <entry>
     <title type="html"><![CDATA[Night Work + Eyes Safety = f.lux]]></title>
     <link href="http://pashka4281.github.com/blog/2015/07/29/night-work-plus-eyes-safety-equals-f-dot-lux/"/>
-    <updated>2015-07-29T00:52:00+03:00</updated>
+    <updated>2015-07-29T00:52:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/07/29/night-work-plus-eyes-safety-equals-f-dot-lux</id>
     <content type="html"><![CDATA[<p>Working a lot in front of monitor under bad lightning conditions (aka at night) is a HUGE problem. Especially for me since I usually have long working sessions at night time.</p>
 
@@ -257,7 +273,7 @@ And this was a key to the problem. We found that mysql gem we installed for the 
   <entry>
     <title type="html"><![CDATA[Who Wants to Pair Together With Me?]]></title>
     <link href="http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me/"/>
-    <updated>2015-05-10T09:12:00+03:00</updated>
+    <updated>2015-05-10T09:12:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me</id>
     <content type="html"><![CDATA[<p><img src="http://gdurl.com/YVaA" alt="img" /></p>
 
@@ -286,7 +302,7 @@ So let’s pair together on something.</p>
   <entry>
     <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
     <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
-    <updated>2015-05-06T14:29:00+03:00</updated>
+    <updated>2015-05-06T14:29:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
     <content type="html"><![CDATA[<p><img src="http://gdurl.com/lIxw" alt="img" /></p>
 
@@ -331,7 +347,7 @@ so now visiting <code>http://localhost:8000</code> will show you the content of 
   <entry>
     <title type="html"><![CDATA[Rails E-tags Explained]]></title>
     <link href="http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained/"/>
-    <updated>2015-03-06T03:14:00+02:00</updated>
+    <updated>2015-03-06T03:14:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2015/03/06/rails-e-tags-explained</id>
     <content type="html"><![CDATA[<p>E-tag is a part of HTTP 1.1 specification and basically a mechanism that helps implement browser caching.
 E-tag stands for “entity tag”. Let’s see how it works.</p>
@@ -427,7 +443,7 @@ If you want to add more information etag will be generated from, you can pass an
   <entry>
     <title type="html"><![CDATA[Glad to Present You 'CommonTime' Tool (a Free App That Helps Working With People From Different Timezones)]]></title>
     <link href="http://pashka4281.github.com/blog/2015/01/10/commontime-tool/"/>
-    <updated>2015-01-10T02:24:00+02:00</updated>
+    <updated>2015-01-10T02:24:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2015/01/10/commontime-tool</id>
     <content type="html"><![CDATA[<p>Happy to welcome you, dear visitor of my blog!</p>
 
@@ -484,7 +500,7 @@ Thanks!</p>
   <entry>
     <title type="html"><![CDATA[Small T-rex Indie Game on Chrome's 'Cannot Connect Page']]></title>
     <link href="http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page/"/>
-    <updated>2014-12-22T17:52:00+02:00</updated>
+    <updated>2014-12-22T17:52:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2014/12/22/small-t-rex-indie-game-on-chromes-cannot-connect-page</id>
     <content type="html"><![CDATA[<script src="http://pashka4281.github.com/javascripts/posts_specific/t-rex-dino-chrome-game.js"></script>
 
@@ -568,7 +584,7 @@ But the game has action haha so I wanted it to be available for me (and for you 
   <entry>
     <title type="html"><![CDATA[Want to Embed Recommendations From Your LinkedIn Profile on Your Blog? This Small Application May Help You.]]></title>
     <link href="http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you/"/>
-    <updated>2014-11-16T16:40:00+02:00</updated>
+    <updated>2014-11-16T16:40:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2014/11/16/want-to-embed-recommendations-from-your-linkedin-profile-on-your-blog-this-small-application-way-help-you</id>
     <content type="html"><![CDATA[<script src="http://pashka4281.github.com/javascripts/posts_specific/linked_in_recommendations.js"></script>
 
@@ -687,7 +703,7 @@ LI profile (e.g. new recommendation come) you should re-generate the script :( .
   <entry>
     <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
     <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
-    <updated>2014-11-12T15:43:00+02:00</updated>
+    <updated>2014-11-12T15:43:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
     <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
 And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.
@@ -729,7 +745,7 @@ Even more, there is an <a href="https://play.google.com/store/apps/details?id=co
   <entry>
     <title type="html"><![CDATA[Setting Up Mysql Replication Locally]]></title>
     <link href="http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally/"/>
-    <updated>2014-07-04T13:11:00+03:00</updated>
+    <updated>2014-07-04T13:11:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally</id>
     <content type="html"><![CDATA[<p>Mysql Replication setup manual</p>
 
@@ -957,7 +973,7 @@ Completed 200 OK in 57ms (Views: 49.4ms | ActiveRecord: 6.2ms)</p>
   <entry>
     <title type="html"><![CDATA[How to Boost Your Freelancer Profile: 5 Ultimate Tips]]></title>
     <link href="http://pashka4281.github.com/blog/2014/06/07/how-to-boost-your-freelancer-profile-5-ultimate-tips/"/>
-    <updated>2014-06-07T05:04:00+03:00</updated>
+    <updated>2014-06-07T05:04:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/06/07/how-to-boost-your-freelancer-profile-5-ultimate-tips</id>
     <content type="html"><![CDATA[<p>Working as a freelancer has huge benefints over traditional office job for sure.
 Really. Think of it: you free to choose when to work, how to work, how much do you take for your work and even who to work with. Great freedom that engages you to develop your online worker profile very quickly and start taking your first orders within days. There are a bunch of online tools/marketplaces out there that will help you in that. There is a good article on this topic I’d really engage you to check out: http://www.bnewton.co.uk/blog/my-ultimate-web-freelancing-compilation-guide-how-to-quit-your-day-job-and-become-a-full-time-freelancer/. I’m sure you’ll find something interesting for yourself there.
@@ -1007,7 +1023,7 @@ It’s a really good idea to have your personal site and blog in additiona to yo
   <entry>
     <title type="html"><![CDATA[Node JS Ecosystem From Rails Developer Perspective - Part1]]></title>
     <link href="http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1/"/>
-    <updated>2014-06-01T04:50:00+03:00</updated>
+    <updated>2014-06-01T04:50:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/06/01/node-js-ecosystem-from-rails-developer-perspective-part1</id>
     <content type="html"><![CDATA[<p>That was a rainy night of Saturday when I was sitting down and reading some blog I found a notice about Node. Yay, now I know how to spend rest of the eve - I thought :)</p>
 
@@ -1279,7 +1295,7 @@ Questions are really welcome :)</p>
   <entry>
     <title type="html"><![CDATA[First Steps in Ruby Language]]></title>
     <link href="http://pashka4281.github.com/blog/2014/05/10/first-steps-in-ruby-language/"/>
-    <updated>2014-05-10T20:48:00+03:00</updated>
+    <updated>2014-05-10T20:48:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/05/10/first-steps-in-ruby-language</id>
     <content type="html"><![CDATA[<h1 id="ruby">Этап 1. Установка Ruby</h1>
 
@@ -1344,7 +1360,7 @@ Questions are really welcome :)</p>
   <entry>
     <title type="html"><![CDATA[Ruby Lovers Club - First Meetup]]></title>
     <link href="http://pashka4281.github.com/blog/2014/05/10/ruby-lovers-club-first-meetup/"/>
-    <updated>2014-05-10T16:05:00+03:00</updated>
+    <updated>2014-05-10T16:05:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/05/10/ruby-lovers-club-first-meetup</id>
     <content type="html"><![CDATA[<p>10/05/14 18:30</p>
 
@@ -1402,7 +1418,7 @@ Questions are really welcome :)</p>
   <entry>
     <title type="html"><![CDATA[Debugging Web Application Directly on Your Android Device]]></title>
     <link href="http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device/"/>
-    <updated>2013-01-31T17:17:00+02:00</updated>
+    <updated>2013-01-31T17:17:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2013/01/31/debugging-web-application-directly-on-your-android-device</id>
     <content type="html"><![CDATA[<p>If you take care of how would your web app look on mobile devices this will be definitely helpful. So to make it work you need to satisfy next conditions:</p>
 
@@ -1460,7 +1476,7 @@ list of opened tabs on your mobile device:</p>
   <entry>
     <title type="html"><![CDATA[My Octopress Blog Is Now Live]]></title>
     <link href="http://pashka4281.github.com/blog/2013/01/27/my-octopress-blog-is-now-live/"/>
-    <updated>2013-01-27T21:58:00+02:00</updated>
+    <updated>2013-01-27T21:58:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2013/01/27/my-octopress-blog-is-now-live</id>
     <content type="html"><![CDATA[<p>That’s it. New posts definitely will be more informative!</p>
 ]]></content>

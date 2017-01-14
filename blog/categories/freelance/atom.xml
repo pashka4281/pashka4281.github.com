@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Freelance | WebJournal]]></title>
+  <link href="http://pashka4281.github.com/blog/categories/freelance/atom.xml" rel="self"/>
+  <link href="http://pashka4281.github.com/"/>
+  <updated>2017-01-14T14:16:29-05:00</updated>
+  <id>http://pashka4281.github.com/</id>
+  <author>
+    <name><![CDATA[Pavlo Sirous]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[2016 Summary]]></title>
+    <link href="http://pashka4281.github.com/blog/2016/01/11/updates-for-2016/"/>
+    <updated>2016-01-11T21:04:00-05:00</updated>
+    <id>http://pashka4281.github.com/blog/2016/01/11/updates-for-2016</id>
+    <content type="html"><![CDATA[<p>Hey everybody. Since 2016 is now officially over I can finally more or less summurise how it went. Overall it’s been a hussle for me from the very begginning. It all started from taking a decicion to move to Canada and most of the endavours during the year were pointed towards that goal. That included finishing my freelance activity and searching for a “normal” (as most people will agree) in-office job. Well from my current viewpoint I can say that it turned to be a very refreshing and new experience for me. So now I reside in the city of immigrants - Toronto enjoying mostly snowless winter and people who always say “sorry” :). There is a lot I can say about relocating process, worth a <a href="https://sirousblog.wordpress.com/">separate blog about travelling which I actually have here</a> (unfortunately not in English).
+<!-- More --></p>
+
+<p>Keeping talking about 2016 updates, the most noticable move in my developer career (not counting freelance =&gt; office switch) is wrapping up Rails &amp; Ruby development in favour of Meteor.js/Node ecosystem. Well to be honest, when I first encountered Meteor it was still in a very fetus state but even then I undesrtood that this aligns with my imagination of future web development more than what Rails proposes. So I was just patiantely waiting while Meteor gains stability and matureness required to be called a production ready framework. And the guys behind it did a great job to make it happen. </p>
+
+<p>Therefore the was a tipping point in 2016 and most of the year I devoted to JS development and turned a few mate Rails devs into Meteor devs as well btw. What can I say about it, every Rails dev retooled into Meteor.js keep saying the same story: when I first tried meteor it was the same exciting experience as happened to me when I first tried rails after PHP/.NET/whatever. And I’m absolutely all for these words!</p>
+
+<p>To sum up everything above, I’m turning the next page in my life and I’m very excited to see where it’s going to lead me to.</p>
+]]></content>
+  </entry>
+  
+</feed>

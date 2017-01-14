@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SSH | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/ssh/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Who Wants to Pair Together With Me?]]></title>
     <link href="http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me/"/>
-    <updated>2015-05-10T09:12:00+03:00</updated>
+    <updated>2015-05-10T09:12:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/05/10/who-wants-to-pair-together-with-me</id>
     <content type="html"><![CDATA[<p><img src="http://gdurl.com/YVaA" alt="img" /></p>
 
@@ -45,7 +45,7 @@ So let’s pair together on something.</p>
   <entry>
     <title type="html"><![CDATA[SSH Port Forwarding: How To?]]></title>
     <link href="http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to/"/>
-    <updated>2015-05-06T14:29:00+03:00</updated>
+    <updated>2015-05-06T14:29:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/05/06/ssh-port-forwarding-how-to</id>
     <content type="html"><![CDATA[<p><img src="http://gdurl.com/lIxw" alt="img" /></p>
 
@@ -90,7 +90,7 @@ ssh -L 8000:localhost:1080 your.server.com -N
   <entry>
     <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
     <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
-    <updated>2014-11-12T15:43:00+02:00</updated>
+    <updated>2014-11-12T15:43:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
     <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
 And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.

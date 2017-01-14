@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mosh | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/mosh/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Ssh Replacement: Meet Mosh]]></title>
     <link href="http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh/"/>
-    <updated>2014-11-12T15:43:00+02:00</updated>
+    <updated>2014-11-12T15:43:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2014/11/12/ssh-replacement-meet-mosh</id>
     <content type="html"><![CDATA[<p>SSH probably the most wide-spred tool used by thouthands of hackers/ system administrators all over the world to connect to remote servers.
 And while it is simple to use and has been pre-installed on many OS systems, it has some problems as well.

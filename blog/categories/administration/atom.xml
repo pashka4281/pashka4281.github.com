@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Administration | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/administration/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Setting Up Mysql Replication Locally]]></title>
     <link href="http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally/"/>
-    <updated>2014-07-04T13:11:00+03:00</updated>
+    <updated>2014-07-04T13:11:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2014/07/04/setting-up-mysql-replication-locally</id>
     <content type="html"><![CDATA[<p>Mysql Replication setup manual</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Gulp | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/gulp/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to Host a Static Website Using Amazon S3 and gulp.js]]></title>
     <link href="http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js/"/>
-    <updated>2016-01-11T21:04:00+02:00</updated>
+    <updated>2016-01-11T21:04:00-05:00</updated>
     <id>http://pashka4281.github.com/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js</id>
     <content type="html"><![CDATA[<p>Hosting website could be tricky. No seriously, there are tons of “plug and play” hosting solutions for Rails, PHP, Node etc like Heroku or EngineYard or even Digital Ocean. But when it comes to a regular static html website there are nothing even close to that variety. I was looking some place to put my pasvlosirous.com into. And didn’t find literally anything interesting. Just nothing at all. Some of the services asks 8 bucks for static html hosting. 8 bucks Carl!
 Suddenly I realized that I already know the service I was looking for. It’s Amazon S3. Yeah, why not? Powerful, cheap and fast - exactly what I need. Accordingly to their <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/request-rate-perf-considerations.html">docs</a> s3 can handle up to 800 requests per second (or even more if there is a need). Maybe not so impressive if you own something like twitter but more then enough for our needs. Just left to figure out a simple way to compress stylesheets/javascripts, minify and gzip html and put all that crap on our s3 bucket - in other words we need a simple way to deploy our website. Ideally to have single command that will do all necessary things.</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rounding | WebJournal]]></title>
   <link href="http://pashka4281.github.com/blog/categories/rounding/atom.xml" rel="self"/>
   <link href="http://pashka4281.github.com/"/>
-  <updated>2016-01-11T22:06:03+02:00</updated>
+  <updated>2017-01-14T14:16:29-05:00</updated>
   <id>http://pashka4281.github.com/</id>
   <author>
     <name><![CDATA[Pavlo Sirous]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Mysql Gem Float Rounding]]></title>
     <link href="http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding/"/>
-    <updated>2015-08-03T14:41:00+03:00</updated>
+    <updated>2015-08-03T14:41:00-04:00</updated>
     <id>http://pashka4281.github.com/blog/2015/08/03/mysql-gem-float-rounding</id>
     <content type="html"><![CDATA[<p>Working on one of the old Rails app our team found a strange issue related to mysql float numbers.
 We basically upgrade the app to make it use rails 4 and rewrite whole bunch of legacy code alongside.

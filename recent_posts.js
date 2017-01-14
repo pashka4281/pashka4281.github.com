@@ -12,6 +12,20 @@ var posts = [];
 
 
 
+  posts.push({ link: "/blog/2016/01/11/updates-for-2016/", title: "2016 summary", date: "Jan 11<span>th</span>, 2016" });
+
+
+
+
+
+
+
+
+
+  
+
+
+
   posts.push({ link: "/blog/2016/01/11/how-to-host-a-static-website-using-amazon-s3-and-gulp-dot-js/", title: "How to host a static website using Amazon S3 and gulp.js", date: "Jan 11<span>th</span>, 2016" });
 
 
@@ -55,19 +69,5 @@ var posts = [];
 
 
   posts.push({ link: "/blog/2015/07/29/night-work-plus-eyes-safety-equals-f-dot-lux/", title: "Night work + eyes safety = f.lux", date: "Jul 29<span>th</span>, 2015" });
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  posts.push({ link: "/blog/2015/05/10/who-wants-to-pair-together-with-me/", title: "Who wants to pair together with me?", date: "May 10<span>th</span>, 2015" });
 
 recentPostsCallback(posts);
